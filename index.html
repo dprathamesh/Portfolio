@@ -1,0 +1,1638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prathamesh S. Damle - Interactive Portfolio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #3b82f6;
+            --bg-color: #ffffff;
+            --text-color: #1f2937;
+            --card-bg: #f9fafb;
+            --border-color: #e5e7eb;
+            --sidebar-bg: #f3f4f6;
+            --hover-bg: #f3f4f6;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #111827;
+            --text-color: #f9fafb;
+            --card-bg: #1f2937;
+            --border-color: #374151;
+            --sidebar-bg: #1f2937;
+            --hover-bg: #374151;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: all 0.3s ease;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 250px;
+            background-color: var(--sidebar-bg);
+            padding: 15px;
+            border-right: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .sidebar.collapsed {
+            width: 70px;
+        }
+        .sidebar.collapsed .sidebar-header {
+            justify-content: center;
+            position: relative;
+            margin-bottom: 25px; /* Add more space */
+        }
+        .sidebar.collapsed .nav-text,
+        .sidebar.collapsed .accent-color,
+        .sidebar.collapsed .recent-searches {
+            display: none;
+        }
+        .sidebar.collapsed .nav-link {
+            justify-content: center;
+            padding: 15px 8px;
+        }
+        .sidebar.collapsed .collapse-btn {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            margin: 0 auto;
+            position: absolute;
+            top: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            position: static; /* Remove absolute positioning */
+            transform: none; /* Remove transform */
+            margin: 0 auto;
+            display: block;
+        }
+
+
+        .sidebar.collapsed .collapse-btn i:before {
+            content: "\f0c9"; /* fa-bars icon code */
+        }
+
+        .sidebar:not(.collapsed) .collapse-btn i:before {
+            content: "\f00d"; /* fa-times icon code */
+        }
+        .sidebar.collapsed .nav-link.active {
+            background-color: var(--primary-color);
+            color: white;
+            transform: none; /* Remove the translateX transform */
+            border-radius: 12px; /* Make it more rounded for icon-only view */
+        }
+        .sidebar.collapsed .nav-link:hover {
+            background-color: var(--primary-color);
+            color: white;
+            transform: none; /* Remove the translateX transform */
+            border-radius: 12px;
+        }
+        .sidebar.collapsed .logo {
+            display: none;
+        }
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .collapse-btn {
+            background: none;
+            border: none;
+            color: var(--text-color);
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+            font-size: 16px;
+        }
+
+        .collapse-btn:hover {
+            background-color: var(--hover-bg);
+        }
+
+        .accent-color {
+            margin-bottom: 20px;
+        }
+
+        .accent-color label {
+            font-size: 14px;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .accent-color select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            background-color: var(--card-bg);
+            color: var(--text-color);
+        }
+
+        .nav-menu {
+            list-style: none;
+            margin-bottom: 20px;
+        }
+
+        .nav-item {
+            margin-bottom: 8px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            text-decoration: none;
+            color: var(--text-color);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            background-color: var(--primary-color);
+            color: white;
+            transform: translateX(5px);
+        }
+
+        .recent-searches {
+            margin-top: auto;
+        }
+
+        .recent-searches h4 {
+            font-size: 14px;
+            margin-bottom: 10px;
+            color: var(--text-color);
+        }
+
+        .recent-search {
+            font-size: 12px;
+            padding: 6px;
+            margin-bottom: 4px;
+            background-color: var(--card-bg);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .recent-search:hover {
+            background-color: var(--hover-bg);
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 25px;
+            overflow-y: auto;
+        }
+        .chat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 20px;
+        }
+
+        .chat-header h3 {
+            margin: 0;
+            font-size: 18px;
+            color: var(--text-color);
+        }
+
+        .chat-close-btn {
+            background: none;
+            border: none;
+            color: var(--text-color);
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            transition: background-color 0.3s ease;
+            font-size: 16px;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .chat-close-btn:hover {
+            background-color: var(--hover-bg);
+        }
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--text-color);
+            transition: transform 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        .profile-section {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .profile-image {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            background: linear-gradient(135deg, var(--primary-color), #8b5cf6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            color: white;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .profile-name {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 6px;
+        }
+
+        .profile-title {
+            font-size: 16px;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            min-height: 25px;
+        }
+
+        .chat-section {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .chat-prompt {
+            font-size: 18px;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .chat-input-container {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .chat-input {
+            width: 100%;
+            padding: 12px 50px 12px 16px;
+            border: 2px solid var(--border-color);
+            border-radius: 25px;
+            font-size: 16px;
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            transition: border-color 0.3s ease;
+        }
+
+        .chat-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .chat-submit {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: var(--primary-color);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            color: white;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .chat-submit:hover {
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .suggested-questions {
+            margin-bottom: 20px;
+        }
+
+        .suggested-questions h3 {
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .question-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .question-chip {
+            padding: 8px 16px;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        .question-chip:hover {
+            background-color: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .stats-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background-color: var(--card-bg);
+            padding: 13px;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            min-height: 120px;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .stat-icon {
+            font-size: 28px;
+            margin-bottom: 8px;
+            color: var(--primary-color);
+        }
+
+        .stat-number {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--card-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-color);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+        }
+
+        .social-link:hover {
+            background-color: var(--primary-color);
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .skill-category {
+            background-color: var(--card-bg);
+            padding: 30px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        .skill-category h3 {
+            margin-bottom: 20px;
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 10px;
+        }
+
+        .skill-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: var(--bg-color);
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        .skill-item:hover {
+            transform: translateX(5px);
+        }
+
+        .skill-icon {
+            font-size: 24px;
+            color: var(--primary-color);
+        }
+
+        .skill-info h4 {
+            margin-bottom: 5px;
+        }
+
+        .skill-level {
+            font-size: 12px;
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        .skill-years {
+            font-size: 12px;
+            color: #6b7280;
+        }
+
+        .experience-timeline {
+            position: relative;
+            margin: 30px 0;
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-left: 60px;
+            margin-bottom: 40px;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 40px;
+            height: 40px;
+            background-color: var(--primary-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .timeline-content {
+            background-color: var(--card-bg);
+            padding: 25px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        .job-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .company {
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+
+        .date-range {
+            font-size: 14px;
+            color: #6b7280;
+            margin-bottom: 15px;
+        }
+
+        .job-description {
+            margin-bottom: 15px;
+        }
+
+        .achievements {
+            list-style: none;
+        }
+
+        .achievements li {
+            padding: 5px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .achievements li:before {
+            content: "•";
+            color: var(--primary-color);
+            position: absolute;
+            left: 0;
+        }
+
+        .education-item {
+            background-color: var(--card-bg);
+            padding: 30px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .education-item::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 5px;
+            height: 100%;
+            background-color: var(--primary-color);
+        }
+
+        .degree {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .specialization {
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+
+        .university {
+            margin-bottom: 10px;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .project-card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+
+        .project-image {
+            height: 200px;
+            background: linear-gradient(135deg, var(--primary-color), #8b5cf6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 48px;
+        }
+
+        .project-content {
+            padding: 25px;
+        }
+
+        .project-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .project-description {
+            margin-bottom: 15px;
+            color: #6b7280;
+        }
+
+        .tech-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .tech-tag {
+            padding: 4px 8px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+
+        .project-links {
+            display: flex;
+            gap: 10px;
+        }
+
+        .project-link {
+            padding: 8px 16px;
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .project-link:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .chat-interface {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid var(--border-color);
+        }
+
+        .chat-messages {
+            height: 400px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            padding: 20px;
+        }
+
+        .message {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 15px;
+        }
+
+        .message.user {
+            flex-direction: row-reverse;
+        }
+
+        .message-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .message-content {
+            flex: 1;
+            padding: 15px;
+            border-radius: 12px;
+            background-color: var(--bg-color);
+            border: 1px solid var(--border-color);
+        }
+
+        .message.user .message-content {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                padding: 15px;
+            }
+            
+            .main-content {
+                padding: 20px;
+            }
+            
+            .stats-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-robot"></i>
+                    <span class="nav-text">PDCP</span>
+                </div>
+                <button class="collapse-btn" onclick="toggleSidebar()">
+                     <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <div class="accent-color">
+                <label class="nav-text">Accent Color</label>
+                <select onchange="changeAccentColor(this.value)">
+                    <option value="#3b82f6">Blue</option>
+                    <option value="#ef4444">Red</option>
+                    <option value="#10b981">Green</option>
+                    <option value="#8b5cf6">Purple</option>
+                    <option value="#f59e0b">Orange</option>
+                    <option value="#ec4899">Pink</option>
+                </select>
+            </div>
+
+            <nav>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="#home" class="nav-link active" onclick="showSection('home')">
+                            <i class="fas fa-home"></i>
+                            <span class="nav-text">Home</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#skills" class="nav-link" onclick="showSection('skills')">
+                            <i class="fas fa-code"></i>
+                            <span class="nav-text">Skills</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#experience" class="nav-link" onclick="showSection('experience')">
+                            <i class="fas fa-briefcase"></i>
+                            <span class="nav-text">Experience</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#education" class="nav-link" onclick="showSection('education')">
+                            <i class="fas fa-graduation-cap"></i>
+                            <span class="nav-text">Education</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#projects" class="nav-link" onclick="showSection('projects')">
+                            <i class="fas fa-folder-open"></i>
+                            <span class="nav-text">Projects</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="recent-searches">
+                <h4>Recent Searches</h4>
+                <div class="recent-search" onclick="askQuestion('What are Prathamesh\'s technical skills?')">
+                    What are Prathamesh's technical skills?
+                </div>
+                <div class="recent-search" onclick="askQuestion('Tell me about his experience at Capgemini')">
+                    Tell me about his experience at Capgemini
+                </div>
+            </div>
+
+            <div style="margin-top: auto; text-align: center; padding-top: 20px;">
+                <div style="display: flex; align-items: center; justify-content: center; gap: 10px;">
+                    <i class="fas fa-user-circle" style="font-size: 24px; color: var(--primary-color);"></i>
+                    <span class="nav-text" style="font-size: 14px;">Prathamesh S. Damle</span>
+                </div>
+                <div class="nav-text" style="font-size: 12px; color: #6b7280; margin-top: 5px;">
+                    PDCP - Prathamesh's Dynamic Career Portal
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <button class="theme-toggle" onclick="toggleTheme()">
+                <i class="fas fa-moon"></i>
+            </button>
+
+            <!-- Home Section -->
+            <section id="home" class="section">
+                <div class="profile-section">
+                    <div class="profile-image">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h1 class="profile-name">Prathamesh S. Damle</h1>
+                    <div class="profile-title" id="dynamicTitle">Python Lead</div>
+                </div>
+
+                <div class="chat-section">
+                    <h2 class="chat-prompt">What do you want to know?</h2>
+                    
+                    <div class="chat-input-container">
+                        <input type="text" class="chat-input" placeholder="Ask anything..." id="chatInput">
+                        <button class="chat-submit" onclick="submitChat()">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+
+                    <div class="suggested-questions">
+                        <h3>Suggested Questions</h3>
+                        <div class="question-chips">
+                            <div class="question-chip" onclick="askQuestion('What are the interesting projects Prathamesh has worked on?')">
+                                What are the interesting projects Prathamesh has worked on?
+                            </div>
+                            <div class="question-chip" onclick="askQuestion('What are his past experiences?')">
+                                What are his past experiences?
+                            </div>
+                            <div class="question-chip" onclick="askQuestion('What kind of opportunities is he looking for?')">
+                                What kind of opportunities is he looking for?
+                            </div>
+                            <div class="question-chip" onclick="askQuestion('Which school did he attend?')">
+                                Which school did he attend?
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stats-cards">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <div class="stat-number">3+ years</div>
+                        <div>Professional Experience</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-database"></i>
+                        </div>
+                        <div class="stat-number">25+ ETL</div>
+                        <div>Jobs Designed</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <div class="stat-number">8 hours</div>
+                        <div>Weekly Volunteering</div>
+                    </div>
+                </div>
+
+                <div class="social-links">
+                    <a href="mailto:pdamle@buffalo.edu" class="social-link">
+                        <i class="fas fa-envelope"></i>
+                    </a>
+                    <a href="https://linkedin.com/in/prathamesh-damle" class="social-link" target="_blank">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                    <a href="https://github.com/prathamesh-damle" class="social-link" target="_blank">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="tel:+17164150296" class="social-link">
+                        <i class="fas fa-phone"></i>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Skills Section -->
+            <section id="skills" class="section hidden">
+                <h2 style="text-align: center; margin-bottom: 40px; font-size: 32px;">My Skills</h2>
+                
+                <div class="skills-grid">
+                    <div class="skill-category">
+                        <h3>Programming Languages</h3>
+                        <div class="skill-item">
+                            <div class="skill-icon">🐍</div>
+                            <div class="skill-info">
+                                <h4>Python</h4>
+                                <div class="skill-level">Expert</div>
+                                <div class="skill-years">3+ years</div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-icon">🗃️</div>
+                            <div class="skill-info">
+                                <h4>SQL</h4>
+                                <div class="skill-level">Advanced</div>
+                                <div class="skill-years">3+ years</div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-icon">⚙️</div>
+                            <div class="skill-info">
+                                <h4>C</h4>
+                                <div class="skill-level">Intermediate</div>
+                                <div class="skill-years">2+ years</div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-icon">🌐</div>
+                            <div class="skill-info">
+                                <h4>JavaScript</h4>
+                                <div class="skill-level">Intermediate</div>
+                                <div class="skill-years">2+ years</div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-icon">📊</div>
+                            <div class="skill-info">
+                                <h4>R</h4>
+                                <div class="skill-level">Intermediate</div>
+                                <div class="skill-years">1+ years</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="skill-category">
+                        <h3>Data & Analytics Tools</h3>
+                        <div class="skill-item">
+                            <div class="skill-icon">📈</div>
+                            <div class="skill-info">
+                                <h4>SAP BO & BODS</h4>
+                                <div class="skill-level">Expert</div>
+                                <div class="skill-years">3+ years</div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-icon">🔄</div>
+                            <div class="skill-info">
+                                <h4>Redshift</h4>
+                                <div class="skill-level">Advanced</div>
+                                <div class="skill-years">2+ years</div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-icon">📊</div>
+                            <div class="skill-info">
+                                <h4>Tableau</h4>
+                                <div class="skill-level">Advanced</div>
+                                <div class="skill-years">2+ years</div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-icon">📈</div>
+                            <div class="skill-info">
+                                <h4>Power BI</h4>
+                                <div class="skill-level">Intermediate</div>
+                                <div class="skill-years">1+ years</div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-icon">☁️</div>
+                            <div class="skill-info">
+                                <h4>AWS</h4>
+                                <div class="skill-level">Intermediate</div>
+                                <div class="skill-years">2+ years</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="skill-category">
+                        <h3>Machine Learning & AI</h3>
+                        <div class="skill-item">
+                            <div class="skill-icon">🤖</div>
+                            <div class="skill-info">
+                                <h4>Machine Learning</h4>
+                                <div class="skill-level">Advanced</div>
+                                <div class="skill-years">2+ years</div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-icon">🧠</div>
+                            <div class="skill-info">
+                                <h4>Deep Learning</h4>
+                                <div class="skill-level">Intermediate</div>
+                                <div class="skill-years">1+ years</div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-icon">💬</div>
+                            <div class="skill-info">
+                                <h4>NLP</h4>
+                                <div class="skill-level">Advanced</div>
+                                <div class="skill-years">2+ years</div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-icon">🔍</div>
+                            <div class="skill-info">
+                                <h4>Computer Vision</h4>
+                                <div class="skill-level">Intermediate</div>
+                                <div class="skill-years">1+ years</div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-icon">📊</div>
+                            <div class="skill-info">
+                                <h4>Data Science</h4>
+                                <div class="skill-level">Expert</div>
+                                <div class="skill-years">3+ years</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Experience Section -->
+            <section id="experience" class="section hidden">
+                <h2 style="text-align: center; margin-bottom: 40px; font-size: 32px;">Work Experience</h2>
+                
+                <div class="experience-timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-dot">
+                            <i class="fas fa-chalkboard-teacher"></i>
+                        </div>
+                        <div class="timeline-content">
+                            <h3 class="job-title">Teaching Assistant for Data Modification Query Language (SQL)</h3>
+                            <div class="company">State University of New York, Buffalo</div>
+                            <div class="date-range">July 2025 - Present</div>
+                            <div class="job-description">
+                                Working under Dr. Shamsad Parvin, assisting students with SQL coursework and database concepts.
+                            </div>
+                            <ul class="achievements">
+                                <li>Assist with grading work of students and providing detailed feedback</li>
+                                <li>Host office hours and resolve students' subject-related queries and difficulties</li>
+                                <li>Support course instruction and curriculum development</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-dot">
+                            <i class="fas fa-laptop-code"></i>
+                        </div>
+                        <div class="timeline-content">
+                            <h3 class="job-title">Associate (Python Lead)</h3>
+                            <div class="company">Capgemini India Pvt. Ltd.</div>
+                            <div class="date-range">September 2021 - December 2024</div>
+                            <div class="job-description">
+                                <strong>Project:</strong> GE Lighting – Savant Company
+                            </div>
+                            <ul class="achievements">
+                                <li>Worked with Python, SQL, Redshift, and related frameworks for data processing</li>
+                                <li>Performed sentiment Analysis using NLP on the data gathered by CRMs</li>
+                                <li>Utilized complex SQL queries and views for data extraction, transformation, and loading processes</li>
+                                <li>Implemented Python for various tasks, including Flask-based web development, API creation, and AWS connectivity</li>
+                                <li>Worked as an admin for SAP tools like Business Objects and Data Services</li>
+                                <li>Designed 25 ETL jobs to move data from Warehouse to Hana Custom tables</li>
+                                <li>Created, Scheduled and Delivered over 20 Webi reports</li>
+                                <li>Executed POC for new ETL tool, Tableau, SAP Lumira and worked with AWS Copy/Unload</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-dot">
+                            <i class="fas fa-rocket"></i>
+                        </div>
+                        <div class="timeline-content">
+                            <h3 class="job-title">Founder, Director</h3>
+                            <div class="company">Teraluna Tech Ventures (vlink) LLP</div>
+                            <div class="date-range">February 2018 - June 2021</div>
+                            <div class="job-description">
+                                Founded and led a technology venture focused on recruitment solutions and workforce development.
+                            </div>
+                            <ul class="achievements">
+                                <li>Developed a platform based on 'hiring score' (like credit score) to reduce offer shopping in recruitment</li>
+                                <li>Established foundational processes for business operations and automated them</li>
+                                <li>Closed high ticket clients and delivered quality workforce to conglomerates and unicorn businesses</li>
+                                <li>Delivered technology trainings through weekly workshops to grad students (2021-2022)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Education Section -->
+            <section id="education" class="section hidden">
+                <h2 style="text-align: center; margin-bottom: 40px; font-size: 32px;">Education</h2>
+                
+                <div class="education-item">
+                    <div style="display: flex; align-items: center; gap: 20px; margin-bottom: 20px;">
+                        <div style="width: 60px; height: 60px; background: linear-gradient(135deg, var(--primary-color), #8b5cf6); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px;">
+                            🎓
+                        </div>
+                        <div>
+                            <h3 class="degree">Master of Science (MS) in Computer Science and Engineering</h3>
+                            <div class="specialization">Data Science & Machine Learning</div>
+                            <div class="university">State University of New York, Buffalo</div>
+                            <div class="date-range">📅 January 2025 - Present</div>
+                        </div>
+                    </div>
+                    <div>
+                        <h4>🏆 Achievements</h4>
+                        <ul class="achievements">
+                            <li>Teaching Assistant for SQL course under Dr. Shamsad Parvin</li>
+                            <li>Focus on Advanced Machine Learning and Data Analytics</li>
+                            <li>Active participant in research projects and academic collaborations</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="education-item">
+                    <div style="display: flex; align-items: center; gap: 20px; margin-bottom: 20px;">
+                        <div style="width: 60px; height: 60px; background: linear-gradient(135deg, var(--primary-color), #8b5cf6); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px;">
+                            🎓
+                        </div>
+                        <div>
+                            <h3 class="degree">Bachelor of Engineering (BE) in Electronics & Telecommunication</h3>
+                            <div class="specialization">OOP & DBMS Coursework</div>
+                            <div class="university">Pillai College of Engineering, Mumbai University</div>
+                            <div class="date-range">📅 August 2017 - June 2021</div>
+                        </div>
+                    </div>
+                    <div>
+                        <h4>🏆 Achievements</h4>
+                        <ul class="achievements">
+                            <li>CGPA: 8.79/10</li>
+                            <li>Published research paper at CTFC (national level conference)</li>
+                            <li>Paper also published in IEEE magazine edition</li>
+                            <li>Founded Teraluna Tech Ventures during final year</li>
+                            <li>Completed multiple software development projects</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Projects Section -->
+            <section id="projects" class="section hidden">
+                <h2 style="text-align: center; margin-bottom: 40px; font-size: 32px;">Projects</h2>
+                
+                <div class="projects-grid">
+                    <div class="project-card">
+                        <div class="project-image">
+                            <i class="fas fa-user-injured"></i>
+                        </div>
+                        <div class="project-content">
+                            <h3 class="project-title">Fall Detection using Active Learning</h3>
+                            <p class="project-description">
+                                Implemented an OpenAI CLIP-based VadCLIP framework with Active Learning loop for real-time fall detection. Used PyTorch, OpenCV, and Flask to create an end-to-end solution.
+                            </p>
+                            <div class="tech-tags">
+                                <span class="tech-tag">Python</span>
+                                <span class="tech-tag">PyTorch</span>
+                                <span class="tech-tag">OpenCV</span>
+                                <span class="tech-tag">Flask</span>
+                                <span class="tech-tag">SQLite</span>
+                                <span class="tech-tag">CLIP</span>
+                            </div>
+                            <div class="project-links">
+                                <a href="#" class="project-link">
+                                    <i class="fas fa-code"></i> Code
+                                </a>
+                                <a href="#" class="project-link">
+                                    <i class="fas fa-external-link-alt"></i> Demo
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="project-card">
+                        <div class="project-image">
+                            <i class="fas fa-user-check"></i>
+                        </div>
+                        <div class="project-content">
+                            <h3 class="project-title">Smart Attendance System using Facial Recognition</h3>
+                            <p class="project-description">
+                                Developed a facial recognition attendance system using Multi-Task Convoluted Neural Network (MT-CNN). Published research paper at CTFC conference and IEEE magazine.
+                            </p>
+                            <div class="tech-tags">
+                                <span class="tech-tag">Python</span>
+                                <span class="tech-tag">Tkinter</span>
+                                <span class="tech-tag">PyQt</span>
+                                <span class="tech-tag">SQLite</span>
+                                <span class="tech-tag">MT-CNN</span>
+                                <span class="tech-tag">Computer Vision</span>
+                            </div>
+                            <div class="project-links">
+                                <a href="#" class="project-link">
+                                    <i class="fas fa-code"></i> Code
+                                </a>
+                                <a href="#" class="project-link">
+                                    <i class="fas fa-file-alt"></i> Paper
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="project-card">
+                        <div class="project-image">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="project-content">
+                            <h3 class="project-title">Vardhan Volunteer Management Website</h3>
+                            <p class="project-description">
+                                Created a comprehensive website to manage and recruit volunteers for Vardhan NGO. Includes automated processes and tracking systems.
+                            </p>
+                            <div class="tech-tags">
+                                <span class="tech-tag">HTML5</span>
+                                <span class="tech-tag">CSS3</span>
+                                <span class="tech-tag">JavaScript</span>
+                                <span class="tech-tag">Bootstrap</span>
+                            </div>
+                            <div class="project-links">
+                                <a href="#" class="project-link">
+                                    <i class="fas fa-code"></i> Code
+                                </a>
+                                <a href="#" class="project-link">
+                                    <i class="fas fa-external-link-alt"></i> Live
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="project-card">
+                        <div class="project-image">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <div class="project-content">
+                            <h3 class="project-title">Hall Booking & Management System</h3>
+                            <p class="project-description">
+                                Developed a complete hall booking and management system with sports management features using C# and .NET framework.
+                            </p>
+                            <div class="tech-tags">
+                                <span class="tech-tag">C#</span>
+                                <span class="tech-tag">.NET</span>
+                                <span class="tech-tag">SQL Server</span>
+                                <span class="tech-tag">ASP.NET</span>
+                            </div>
+                            <div class="project-links">
+                                <a href="#" class="project-link">
+                                    <i class="fas fa-code"></i> Code
+                                </a>
+                                <a href="#" class="project-link">
+                                    <i class="fas fa-external-link-alt"></i> Demo
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="project-card">
+                        <div class="project-image">
+                            <i class="fas fa-gamepad"></i>
+                        </div>
+                        <div class="project-content">
+                            <h3 class="project-title">Baseball Mario Game</h3>
+                            <p class="project-description">
+                                Developed a basic 'Baseball Mario' game with 3 levels using Python. Features game mechanics, scoring system, and progressive difficulty.
+                            </p>
+                            <div class="tech-tags">
+                                <span class="tech-tag">Python</span>
+                                <span class="tech-tag">Pygame</span>
+                                <span class="tech-tag">Game Development</span>
+                            </div>
+                            <div class="project-links">
+                                <a href="#" class="project-link">
+                                    <i class="fas fa-code"></i> Code
+                                </a>
+                                <a href="#" class="project-link">
+                                    <i class="fas fa-play"></i> Play
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="project-card">
+                        <div class="project-image">
+                            <i class="fas fa-home"></i>
+                        </div>
+                        <div class="project-content">
+                            <h3 class="project-title">IoT Home Automation</h3>
+                            <p class="project-description">
+                                Implemented Internet of Things (IoT) based home automation system with remote control capabilities and smart device integration.
+                            </p>
+                            <div class="tech-tags">
+                                <span class="tech-tag">IoT</span>
+                                <span class="tech-tag">Arduino</span>
+                                <span class="tech-tag">Sensors</span>
+                                <span class="tech-tag">WiFi</span>
+                                <span class="tech-tag">Mobile App</span>
+                            </div>
+                            <div class="project-links">
+                                <a href="#" class="project-link">
+                                    <i class="fas fa-code"></i> Code
+                                </a>
+                                <a href="#" class="project-link">
+                                    <i class="fas fa-video"></i> Demo
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Chat Interface -->
+            <div id="chatInterface" class="chat-interface hidden">
+                <div class="chat-header">
+                    <h3>Chat with Prathamesh's AI Assistant</h3>
+                    <button class="chat-close-btn" onclick="closeChatInterface()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="chat-messages" id="chatMessages">
+                    <div class="message">
+                        <div class="message-avatar">P</div>
+                        <div class="message-content">
+                            Hi! I'm Prathamesh's AI assistant. Feel free to ask me anything about his background, experience, skills, or projects. I'm here to help you learn more about him!
+                        </div>
+                    </div>
+                </div>
+                <div class="chat-input-container">
+                    <input type="text" class="chat-input" placeholder="Ask anything about Prathamesh..." id="chatInputSecondary">
+                    <button class="chat-submit" onclick="submitChatSecondary()">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Dynamic title rotation
+        const titles = [
+            'Python Lead',
+            'Data Scientist',
+            'Machine Learning Engineer',
+            'Teaching Assistant',
+            'Volunteer Manager',
+            'Tech Entrepreneur',
+            'Problem Solver',
+            'Badminton Player',
+            'Math Tutor',
+            'Content Creator'
+        ];
+        
+        let titleIndex = 0;
+        
+        function rotateTitles() {
+            const titleElement = document.getElementById('dynamicTitle');
+            titleElement.style.opacity = '0';
+            
+            setTimeout(() => {
+                titleElement.textContent = titles[titleIndex];
+                titleElement.style.opacity = '1';
+                titleIndex = (titleIndex + 1) % titles.length;
+            }, 300);
+        }
+        
+        // Start title rotation
+        setInterval(rotateTitles, 3000);
+
+        // Theme toggle
+        function toggleTheme() {
+            const body = document.body;
+            const themeToggle = document.querySelector('.theme-toggle i');
+            
+            if (body.hasAttribute('data-theme')) {
+                body.removeAttribute('data-theme');
+                themeToggle.className = 'fas fa-moon';
+            } else {
+                body.setAttribute('data-theme', 'dark');
+                themeToggle.className = 'fas fa-sun';
+            }
+        }
+        function closeChatInterface() {
+            document.getElementById('chatInterface').classList.add('hidden');
+            document.getElementById('home').classList.remove('hidden');
+            
+            // Update active nav link back to home
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            document.querySelector('a[href="#home"]').classList.add('active');
+        }
+        // Sidebar toggle
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const icon = document.querySelector('.collapse-btn i');
+    
+            sidebar.classList.toggle('collapsed');
+            
+            if (sidebar.classList.contains('collapsed')) {
+                icon.className = 'fas fa-bars';
+            } else {
+                icon.className = 'fas fa-times';
+            }
+        }
+
+        // Accent color change
+        function changeAccentColor(color) {
+            document.documentElement.style.setProperty('--primary-color', color);
+        }
+
+        // Navigation
+        function showSection(sectionName) {
+            // Hide all sections
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.add('hidden');
+            });
+            
+            // Hide chat interface
+            document.getElementById('chatInterface').classList.add('hidden');
+            
+            // Show selected section
+            document.getElementById(sectionName).classList.remove('hidden');
+            
+            // Update active nav link
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            event.target.closest('.nav-link').classList.add('active');
+        }
+
+        // Chat functionality
+        const knowledgeBase = {
+            "experience": "Prathamesh has 3+ years of professional experience. He currently works as a Teaching Assistant for SQL at SUNY Buffalo under Dr. Shamsad Parvin. Previously, he was an Associate (Python Lead) at Capgemini India for over 3 years, working on GE Lighting projects. He also founded Teraluna Tech Ventures, developing a hiring score platform.",
+            
+            "skills": "Prathamesh is skilled in Python (Expert, 3+ years), SQL (Advanced, 3+ years), Machine Learning, Data Science, NLP, and various tools like SAP BO/BODS, Tableau, Power BI, AWS, and Redshift. He has designed 25+ ETL jobs and delivered 20+ Webi reports.",
+            
+            "education": "He holds a Bachelor's in Electronics & Telecommunication from Pillai College of Engineering, Mumbai University (CGPA: 8.79/10) and is currently pursuing his MS in Computer Science and Engineering at SUNY Buffalo.",
+            
+            "projects": "Notable projects include Fall Detection using Active Learning with OpenAI CLIP, Smart Attendance System using facial recognition (published in IEEE), volunteer management website for Vardhan, hall booking system, Baseball Mario game, and IoT home automation.",
+            
+            "certifications": "He has certifications from Amazon (Data Structures & Algorithms), Stanford (Machine Learning by Andrew NG), Google (Data Analysis), UC San Diego (Advanced Data Structures in Java), and Boston Institute of Tech (ML, Data Science & AI).",
+            
+            "volunteering": "Prathamesh is a Volunteer Manager at Vardhan since May 2022, teaching underprivileged children for 8 hours weekly and managing 25+ volunteers across 60km geography. He's established 5 automated management processes.",
+            
+            "hobbies": "He enjoys playing badminton and chess, watching baseball and tennis, reading, solving math problems, part-time math tutoring for international students, and working as a designer & content creator for brands like HUE and Stonk.",
+            
+            "contact": "You can reach Prathamesh at pdamle@buffalo.edu, phone +1 716 4150296, or connect via LinkedIn and GitHub. He's based in Buffalo, United States.",
+            
+            "achievements": "Key achievements include publishing research papers, founding a tech venture, receiving multiple certifications, designing 25+ ETL jobs, managing large volunteer teams, and maintaining excellent academic performance."
+        };
+
+        function getAIResponse(question) {
+            const q = question.toLowerCase();
+            
+            if (q.includes('experience') || q.includes('work') || q.includes('job') || q.includes('capgemini')) {
+                return knowledgeBase.experience;
+            } else if (q.includes('skill') || q.includes('technical') || q.includes('programming') || q.includes('python') || q.includes('sql')) {
+                return knowledgeBase.skills;
+            } else if (q.includes('education') || q.includes('school') || q.includes('university') || q.includes('degree') || q.includes('study')) {
+                return knowledgeBase.education;
+            } else if (q.includes('project') || q.includes('fall detection') || q.includes('attendance') || q.includes('game') || q.includes('iot')) {
+                return knowledgeBase.projects;
+            } else if (q.includes('certification') || q.includes('course') || q.includes('training')) {
+                return knowledgeBase.certifications;
+            } else if (q.includes('volunteer') || q.includes('vardhan') || q.includes('community')) {
+                return knowledgeBase.volunteering;
+            } else if (q.includes('hobby') || q.includes('hobbies') || q.includes('interest') || q.includes('entertainment') || q.includes('badminton') || q.includes('chess')) {
+                return knowledgeBase.hobbies;
+            } else if (q.includes('contact') || q.includes('email') || q.includes('phone') || q.includes('reach')) {
+                return knowledgeBase.contact;
+            } else if (q.includes('achievement') || q.includes('award') || q.includes('recognition')) {
+                return knowledgeBase.achievements;
+            } else if (q.includes('hello') || q.includes('hi') || q.includes('hey')) {
+                return "Hello! I'm Prathamesh's AI assistant. I can tell you about his experience, skills, education, projects, and more. What would you like to know?";
+            } else if (q.includes('looking for') || q.includes('opportunities') || q.includes('seeking')) {
+                return "Prathamesh is currently pursuing his MS in Computer Science at SUNY Buffalo and working as a Teaching Assistant. He's interested in data science, machine learning, and software engineering opportunities, particularly roles that combine his technical skills with his passion for education and community impact.";
+            } else {
+                return "I can help you learn about Prathamesh's background, experience, skills, education, projects, certifications, volunteering work, and hobbies. What specific aspect would you like to know more about?";
+            }
+        }
+
+        function askQuestion(question) {
+            document.getElementById('chatInput').value = question;
+            submitChat();
+        }
+
+        function submitChat() {
+            const input = document.getElementById('chatInput');
+            const question = input.value.trim();
+            
+            if (!question) return;
+            
+            showChatInterface();
+            addMessage(question, 'user');
+            
+            setTimeout(() => {
+                const response = getAIResponse(question);
+                addMessage(response, 'ai');
+            }, 1000);
+            
+            input.value = '';
+            addToRecentSearches(question);
+        }
+
+        function submitChatSecondary() {
+            const input = document.getElementById('chatInputSecondary');
+            const question = input.value.trim();
+            
+            if (!question) return;
+            
+            addMessage(question, 'user');
+            
+            setTimeout(() => {
+                const response = getAIResponse(question);
+                addMessage(response, 'ai');
+            }, 1000);
+            
+            input.value = '';
+            addToRecentSearches(question);
+        }
+
+        function showChatInterface() {
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.add('hidden');
+            });
+            
+            document.getElementById('chatInterface').classList.remove('hidden');
+            
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+        }
+
+        function addMessage(content, sender) {
+            const messagesContainer = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}`;
+            
+            const avatar = sender === 'user' ? 'Y' : 'P';
+            const avatarClass = sender === 'user' ? 'user' : '';
+            
+            messageDiv.innerHTML = `
+                <div class="message-avatar ${avatarClass}">${avatar}</div>
+                <div class="message-content">${content}</div>
+            `;
+            
+            messagesContainer.appendChild(messageDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        function addToRecentSearches(question) {
+            // This would typically save to localStorage, but we'll just update the UI
+            console.log('Added to recent searches:', question);
+        }
+
+        // Handle enter key in chat inputs
+        document.getElementById('chatInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                submitChat();
+            }
+        });
+
+        document.getElementById('chatInputSecondary').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                submitChatSecondary();
+            }
+        });
+
+        // Add hover animations
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add hover effects to cards
+            const cards = document.querySelectorAll('.stat-card, .project-card, .skill-item');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-5px)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
