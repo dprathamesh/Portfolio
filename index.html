@@ -1923,27 +1923,24 @@
             
             isSubmitting = true;
             
-            // Get the correct input based on which section is visible
-            let input;
-            const chatInterface = document.getElementById('chatInterface');
+            // Check interface input FIRST (since that's where suggested questions go)
+            const input1 = document.getElementById('chatInterfaceInput');
+            const input2 = document.getElementById('chatInput');
             
-            if (!chatInterface.classList.contains('hidden')) {
-                // Chat interface is open - use interface input
-                input = document.getElementById('chatInterfaceInput');
-            } else {
-                // Home section is visible - use main input
-                input = document.getElementById('chatInput');
+            let input = null;
+            let question = '';
+            
+            // Priority: interface input first, then main input
+            if (input1 && input1.value.trim()) {
+                input = input1;
+                question = input1.value.trim();
+                console.log("🎯 Using interface input");
+            } else if (input2 && input2.value.trim()) {
+                input = input2;
+                question = input2.value.trim();
+                console.log("🎯 Using main input");
             }
             
-            console.log("🎯 Using input:", input ? input.id : 'none found');
-            
-            if (!input) {
-                console.error("❌ No chat input found");
-                isSubmitting = false;
-                return;
-            }
-            
-            const question = input.value.trim();
             console.log("❓ Question:", `"${question}"`);
             
             if (!question) {
@@ -1965,7 +1962,7 @@
                 addMessage(fallbackResponse, 'ai');
             }
             
-            input.value = '';
+            if (input) input.value = '';
             addToRecentSearches(question);
             isSubmitting = false;
             console.log("✨ submitChat() completed");
