@@ -1051,7 +1051,7 @@
                     <h2 class="chat-prompt">What do you want to know?</h2>
                     
                     <div class="chat-input-container">
-                        <input type="text" class="chat-input" placeholder="Ask anything..." id="mainChatInput">
+                        <input type="text" class="chat-input" placeholder="Ask anything..." id="chatInput">
 
                         <button class="chat-submit" onclick="submitChat()">
                             <i class="fas fa-paper-plane"></i>
@@ -1594,6 +1594,14 @@
         <span id="apiStatusText">API Status: Checking...</span>
     </div>
     <script>
+        // DECLARE ALL VARIABLES AT THE TOP
+        let titleIndex = 0;
+        let lastApiCall = 0;
+        let conversationHistory = [];
+        let apiOnline = false;
+        let isSubmitting = false; // ← MOVED TO TOP
+        const API_COOLDOWN = 2000;
+        const responseCache = new Map();
         // Dynamic title rotation
         const titles = [
             'Python Lead',
@@ -1607,15 +1615,6 @@
             'Math Tutor',
             'Content Creator'
         ];
-
-        // DECLARE ALL VARIABLES AT THE TOP
-        let titleIndex = 0;
-        let lastApiCall = 0;
-        let conversationHistory = [];
-        let apiOnline = false;
-        let isSubmitting = false; // ← MOVED TO TOP
-        const API_COOLDOWN = 2000;
-        const responseCache = new Map();
 
         console.log("Script loaded");
 
@@ -1831,18 +1830,31 @@
                 
                 if (response.ok) {
                     const result = await response.json();
-                    const answer = result.choices[0].message.content;
+                    // Handle different response formats from Groq API
+                    let answer;
+                    if (result.choices && result.choices[0] && result.choices[0].message) {
+                        answer = result.choices[0].message.content;
+                    } else if (result.message) {
+                        answer = result.message;
+                    } else if (result.response) {
+                        answer = result.response;
+                    } else {
+                        console.error("Unexpected API response format:", result);
+                        answer = "I received an unexpected response format from the API.";
+                    }
+                    
                     cacheResponse(question, answer);
                     return answer;
                 } else {
-                    console.error("Backend API Error:", response.status);
-                    return getLocalResponse(question);
+                    const errorText = await response.text();
+                    console.error("API Error:", response.status, errorText);
+                    return `API Error (${response.status}): ${errorText}`;
                 }
                 
             } catch (error) {
-                console.error("Backend connection failed:", error);
+                console.error("API connection failed:", error);
                 removeTypingIndicator();
-                return getLocalResponse(question);
+                return `Connection failed: ${error.message}. Please check if your API is properly deployed.`;
             }
         }
 
