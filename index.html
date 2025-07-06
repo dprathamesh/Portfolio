@@ -1613,8 +1613,7 @@
         let lastApiCall = 0;
         const API_COOLDOWN = 2000;
         // Hugging Face API integration
-        const GROQ_API_KEY = process.env.GROQ_API_KEY || 'fallback-to-local-responses';
-        const GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions";
+        //const GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions";
         
         console.log("Script loaded");
         
@@ -1670,22 +1669,13 @@
                 statusDot.className = "status-dot";
                 statusElement.textContent = "API Status: Checking...";
                 
-                const response = await fetch(GROQ_API_URL, {
-                    method: "POST",
+                // Test the backend endpoint instead of direct API
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
                     headers: {
-                        "Authorization": `Bearer ${GROQ_API_KEY}`,
-                        "Content-Type": "application/json"
+                        'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({
-                        model: "llama-3.3-70b-versatile",
-                        messages: [
-                            {
-                                role: "user",
-                                content: "Hello"
-                            }
-                        ],
-                        max_tokens: 5
-                    })
+                    body: JSON.stringify({ question: "Hello" })
                 });
                 
                 if (response.ok) {
@@ -1695,7 +1685,7 @@
                     statusElement.textContent = "API Status: Online";
                 } else {
                     const errorText = await response.text();
-                    console.error("Groq API Error Details:", {
+                    console.error("Backend API Error Details:", {
                         status: response.status,
                         statusText: response.statusText,
                         body: errorText
@@ -1710,8 +1700,7 @@
                 apiStatusIndicator.className = "api-status offline";
                 statusDot.className = "status-dot offline";
                 statusElement.textContent = "API Status: Connection Failed";
-                console.error("Groq API Connection Error:", error);
-        // ... existing error handling
+                console.error("Backend Connection Error:", error);
             }
         }
     
@@ -1836,27 +1825,12 @@
             try {
                 showTypingIndicator();
                 
-                const response = await fetch(GROQ_API_URL, {
-                    method: "POST",
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
                     headers: {
-                        "Authorization": `Bearer ${GROQ_API_KEY}`,
-                        "Content-Type": "application/json"
+                        'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({
-                        model: "llama-3.3-70b-versatile", // or "llama2-70b-4096"
-                        messages: [
-                            {
-                                role: "system",
-                                content: "You are Prathamesh Damle's AI assistant. Prathamesh is a Python Lead and Data Scientist currently pursuing MS in Computer Science at SUNY Buffalo. He has 3+ years of experience at Capgemini India, founded Teraluna Tech Ventures, and works on machine learning projects."
-                            },
-                            {
-                                role: "user",
-                                content: question
-                            }
-                        ],
-                        max_tokens: question.length > 50 ? 400 : 250,
-                        temperature: 0.7
-                    })
+                    body: JSON.stringify({ question })
                 });
                 
                 removeTypingIndicator();
@@ -1867,12 +1841,12 @@
                     cacheResponse(question, answer);
                     return answer;
                 } else {
-                    console.error("Groq API Error:", response.status, response.statusText);
+                    console.error("Backend API Error:", response.status);
                     return getLocalResponse(question);
                 }
                 
             } catch (error) {
-                console.error("Groq API Error:", error);
+                console.error("Backend connection failed:", error);
                 removeTypingIndicator();
                 return getLocalResponse(question);
             }
