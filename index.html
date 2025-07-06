@@ -1594,7 +1594,6 @@
         <span id="apiStatusText">API Status: Checking...</span>
     </div>
     <script>
-        
         // Dynamic title rotation
         const titles = [
             'Python Lead',
@@ -1608,19 +1607,17 @@
             'Math Tutor',
             'Content Creator'
         ];
-        
+
+        // DECLARE ALL VARIABLES AT THE TOP
         let titleIndex = 0;
         let lastApiCall = 0;
-        const API_COOLDOWN = 2000;
-        // Hugging Face API integration
-        //const GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions";
-        
-        console.log("Script loaded");
-        
         let conversationHistory = [];
         let apiOnline = false;
+        let isSubmitting = false; // ← MOVED TO TOP
+        const API_COOLDOWN = 2000;
         const responseCache = new Map();
-        let isSubmitting = false;
+
+        console.log("Script loaded");
 
         document.addEventListener('DOMContentLoaded', function() {
             console.log("DOM loaded, initializing...");
@@ -1669,7 +1666,6 @@
                 statusDot.className = "status-dot";
                 statusElement.textContent = "API Status: Checking...";
                 
-                // Test the backend endpoint instead of direct API
                 const response = await fetch('/api/chat', {
                     method: 'POST',
                     headers: {
@@ -1703,8 +1699,7 @@
                 console.error("Backend Connection Error:", error);
             }
         }
-    
-        // Handle Enter key in chat input
+
         function handleChatInputKey(event) {
             if (event.key === 'Enter') {
                 submitChat();
@@ -1720,8 +1715,7 @@
             const key = question.toLowerCase().trim();
             responseCache.set(key, response);
         }
-        
-        
+
         function rotateTitles() {
             const titleElement = document.getElementById('dynamicTitle');
             titleElement.style.opacity = '0';
@@ -1732,7 +1726,7 @@
                 titleIndex = (titleIndex + 1) % titles.length;
             }, 300);
         }
-        
+
         // Start title rotation
         setInterval(rotateTitles, 3000);
 
@@ -1749,7 +1743,7 @@
                 themeToggle.className = 'fas fa-sun';
             }
         }
-        
+
         function closeChatInterface() {
             document.getElementById('chatInterface').classList.add('hidden');
             document.getElementById('home').classList.remove('hidden');
@@ -1760,12 +1754,12 @@
             });
             document.querySelector('a[href="#home"]').classList.add('active');
         }
-        
+
         // Sidebar toggle
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
             const icon = document.querySelector('.collapse-btn i');
-    
+
             sidebar.classList.toggle('collapsed');
             
             if (sidebar.classList.contains('collapsed')) {
@@ -1779,7 +1773,7 @@
         function changeAccentColor(color) {
             document.documentElement.style.setProperty('--primary-color', color);
         }
-        
+
         function showInitials() {
             const img = document.querySelector('.profile-image img');
             const initials = document.getElementById('profileInitials');
@@ -1855,7 +1849,9 @@
         function getLocalResponse(question) {
             const q = question.toLowerCase();
             
-            if (q.includes('experience') || q.includes('work') || q.includes('job') || q.includes('capgemini')) {
+            if (q.includes('do now') || q.includes('current') || q.includes('currently')) {
+                return "Currently, Prathamesh is pursuing his MS in Computer Science at SUNY Buffalo and working as a Teaching Assistant for SQL courses. He also continues his volunteer work with Vardhan NGO, teaching underprivileged children.";
+            } else if (q.includes('experience') || q.includes('work') || q.includes('job') || q.includes('capgemini')) {
                 return "Prathamesh has 3+ years of professional experience. He worked at Capgemini as a Python Lead from 2021-2024, where he designed ETL jobs and performed sentiment analysis using NLP. He also founded Teraluna Tech Ventures, a recruitment technology startup.";
             } else if (q.includes('skill') || q.includes('technical') || q.includes('python') || q.includes('sql')) {
                 return "Prathamesh's technical skills include Python (expert), SQL (advanced), Machine Learning, Data Science, NLP, SAP BO/BODS, Tableau, and AWS. He has 3+ years of experience with Python and SQL, and 2+ years with machine learning and data visualization tools.";
@@ -1871,15 +1867,6 @@
                 return "Hello! I'm Prathamesh's AI assistant. How can I help you learn about his professional background?";
             } else {
                 return "I can help you learn about Prathamesh's experience, skills, education, projects, and volunteering work. What specific information are you looking for?";
-            }
-        }
-
-        async function submitTestQuery() {
-            try {
-                const response = await queryGroqAPI("Helllo");
-                console.log("API Test Successful:", response);
-            } catch (error) {
-                console.log("API Test Failed:", error);
             }
         }
 
@@ -1899,7 +1886,7 @@
             messagesContainer.appendChild(typingDiv);
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
         }
-        
+
         function removeTypingIndicator() {
             const typingIndicator = document.getElementById('typingIndicator');
             if (typingIndicator) {
@@ -1923,12 +1910,13 @@
             }
             
             isSubmitting = true;
-            console.log("🔄 submitChat() called");
+            
             // Find ANY available input
             let input = document.getElementById('chatInput') || document.getElementById('chatInterfaceInput');
             
             if (!input) {
                 console.error("❌ No chat input found");
+                isSubmitting = false;
                 return;
             }
             
@@ -1937,6 +1925,7 @@
             
             if (!question) {
                 console.log("❌ Empty question, returning");
+                isSubmitting = false;
                 return;
             }
             
@@ -1958,7 +1947,7 @@
             isSubmitting = false;
             console.log("✨ submitChat() completed");
         }
-        
+
         function showChatInterface() {
             console.log("🖥️ showChatInterface() called");
             
@@ -1984,25 +1973,6 @@
             });
             
             console.log("✅ Chat interface shown");
-        }
-        
-        async function submitChatSecondary() {
-            const input = document.getElementById('chatInputSecondary');
-            const question = input.value.trim();
-            
-            if (!question) return;
-            
-            addMessage(question, 'user');
-            
-            try {
-                const response = await queryGroqAPI(question);
-                addMessage(response, 'ai');
-            } catch (error) {
-                addMessage("Sorry, I encountered an error processing your request.", 'ai');
-            }
-            
-            input.value = '';
-            addToRecentSearches(question);
         }
 
         function addMessage(content, sender) {
@@ -2051,7 +2021,6 @@
                 }
             }
         }
-
     </script>
 </body>
 </html>
