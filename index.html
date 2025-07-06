@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prathamesh S. Damle - Interactive Portfolio</title>
+    <title>Prathamesh S. Damle - AI-Powered Portfolio</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         * {
@@ -58,7 +58,7 @@
         .sidebar.collapsed .sidebar-header {
             justify-content: center;
             position: relative;
-            margin-bottom: 25px; /* Add more space */
+            margin-bottom: 25px;
         }
         .sidebar.collapsed .nav-text,
         .sidebar.collapsed .accent-color,
@@ -79,30 +79,30 @@
             top: 15px;
             left: 50%;
             transform: translateX(-50%);
-            position: static; /* Remove absolute positioning */
-            transform: none; /* Remove transform */
+            position: static;
+            transform: none;
             margin: 0 auto;
             display: block;
         }
 
 
         .sidebar.collapsed .collapse-btn i:before {
-            content: "\f0c9"; /* fa-bars icon code */
+            content: "\f0c9";
         }
 
         .sidebar:not(.collapsed) .collapse-btn i:before {
-            content: "\f00d"; /* fa-times icon code */
+            content: "\f00d";
         }
         .sidebar.collapsed .nav-link.active {
             background-color: var(--primary-color);
             color: white;
-            transform: none; /* Remove the translateX transform */
-            border-radius: 12px; /* Make it more rounded for icon-only view */
+            transform: none;
+            border-radius: 12px;
         }
         .sidebar.collapsed .nav-link:hover {
             background-color: var(--primary-color);
             color: white;
-            transform: none; /* Remove the translateX transform */
+            transform: none;
             border-radius: 12px;
         }
         .sidebar.collapsed .logo {
@@ -243,7 +243,11 @@
             align-items: center;
             justify-content: center;
         }
-
+        .profile-initials {
+            font-size: 32px;
+            font-weight: bold;
+            color: white;
+        }
         .chat-close-btn:hover {
             background-color: var(--hover-bg);
         }
@@ -359,7 +363,28 @@
             margin-bottom: 15px;
             text-align: center;
         }
-
+        .suggested-question {
+            background-color: #f0f4ff;
+            border-radius: 20px;
+            padding: 8px 16px;
+            margin: 5px;
+            cursor: pointer;
+            display: inline-block;
+            transition: all 0.3s;
+        }
+        
+        .suggested-question:hover {
+            background-color: #3b82f6;
+            color: white;
+        }
+        
+        .conversation-starter {
+            text-align: center;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            margin: 15px 0;
+        }
         .question-chips {
             display: flex;
             flex-wrap: wrap;
@@ -484,8 +509,20 @@
         .skill-icon {
             font-size: 24px;
             color: var(--primary-color);
+            width: 30px;
+            text-align: center;
         }
-
+        .education-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary-color), #8b5cf6);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+        }
         .skill-info h4 {
             margin-bottom: 5px;
         }
@@ -700,6 +737,10 @@
             overflow-y: auto;
             margin-bottom: 20px;
             padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+
         }
 
         .message {
@@ -731,10 +772,68 @@
             background-color: var(--bg-color);
             border: 1px solid var(--border-color);
         }
+        .message.ai .message-content {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+        }
+
+        [data-theme="dark"] .message.ai .message-content {
+            background-color: #1e293b;
+            border: 1px solid #475569;
+            color: #e2e8f0;
+        }
 
         .message.user .message-content {
             background-color: var(--primary-color);
             color: white;
+            border: 1px solid var(--primary-color);
+        }
+        .chat-status {
+            text-align: center;
+            padding: 10px;
+            font-size: 14px;
+            color: #666;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+        .api-offline {
+            background-color: #fff8e6;
+            border: 1px solid #ffeeba;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        
+        .api-offline i {
+            color: #ffc107;
+            margin-right: 10px;
+        }
+        .typing-indicator {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            margin-bottom: 20px;
+        }
+        
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--primary-color);
+            border-radius: 50%;
+            margin: 0 3px;
+            opacity: 0.6;
+            animation: typingAnimation 1.4s infinite ease-in-out;
+        }
+        
+        .typing-dot:nth-child(1) { animation-delay: 0s; }
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+        
+        @keyframes typingAnimation {
+            0%, 100% { transform: translateY(0); opacity: 0.6; }
+            50% { transform: translateY(-5px); opacity: 1; }
         }
 
         .hidden {
@@ -766,6 +865,88 @@
             .projects-grid {
                 grid-template-columns: 1fr;
             }
+        }
+        .error-message {
+            color: #ef4444;
+            background-color: #fee2e2;
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 10px;
+            display: none;
+        }
+        
+        .retry-btn {
+            background-color: #3b82f6;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 10px;
+            display: none;
+        }
+        
+        .api-status {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            background-color: #f3f4f6;
+            color: #374151;
+            border: 1px solid #d1d5db;
+        }
+        
+        .api-status.checking {
+            background-color: #fef3c7;
+            color: #92400e;
+        }
+
+        .api-status.online {
+            background-color: #d1fae5;
+            color: #065f46;
+        }
+
+        .api-status.offline {
+            background-color: #fee2e2;
+            color: #991b1b;
+        }
+        
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+        
+        .status-dot.online {
+            background-color: white;
+        }
+        
+        .status-dot.offline {
+            background-color: white;
+        }
+        
+        /* Loading spinner */
+        .spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 5px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
     </style>
 </head>
@@ -860,6 +1041,7 @@
                 <div class="profile-section">
                     <div class="profile-image">
                         <img src="images/profile.jpg" alt="Prathamesh S. Damle" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">
+                        <span class="profile-initials" id="profileInitials" style="display: none;">P D</span>
                     </div>
                     <h1 class="profile-name">Prathamesh S. Damle</h1>
                     <div class="profile-title" id="dynamicTitle">Python Lead</div>
@@ -869,7 +1051,8 @@
                     <h2 class="chat-prompt">What do you want to know?</h2>
                     
                     <div class="chat-input-container">
-                        <input type="text" class="chat-input" placeholder="Ask anything..." id="chatInput">
+                        <input type="text" class="chat-input" placeholder="Ask anything..." id="mainChatInput">
+
                         <button class="chat-submit" onclick="submitChat()">
                             <i class="fas fa-paper-plane"></i>
                         </button>
@@ -942,7 +1125,7 @@
                     <div class="skill-category">
                         <h3>Programming Languages</h3>
                         <div class="skill-item">
-                            <div class="skill-icon">🐍</div>
+                            <div class="skill-icon"><i class="fas fa-code"></i></div>
                             <div class="skill-info">
                                 <h4>Python</h4>
                                 <div class="skill-level">Expert</div>
@@ -950,7 +1133,7 @@
                             </div>
                         </div>
                         <div class="skill-item">
-                            <div class="skill-icon">🗃️</div>
+                            <div class="skill-icon"><i class="fas fa-database"></i></div>
                             <div class="skill-info">
                                 <h4>SQL</h4>
                                 <div class="skill-level">Advanced</div>
@@ -958,7 +1141,7 @@
                             </div>
                         </div>
                         <div class="skill-item">
-                            <div class="skill-icon">⚙️</div>
+                            <div class="skill-icon"><i class="fas fa-cog"></i></div>
                             <div class="skill-info">
                                 <h4>C</h4>
                                 <div class="skill-level">Intermediate</div>
@@ -966,7 +1149,7 @@
                             </div>
                         </div>
                         <div class="skill-item">
-                            <div class="skill-icon">🌐</div>
+                            <div class="skill-icon"><i class="fab fa-js-square"></i></div>
                             <div class="skill-info">
                                 <h4>JavaScript</h4>
                                 <div class="skill-level">Intermediate</div>
@@ -974,7 +1157,7 @@
                             </div>
                         </div>
                         <div class="skill-item">
-                            <div class="skill-icon">📊</div>
+                            <div class="skill-icon"><i class="fab fa-r-project"></i></div>
                             <div class="skill-info">
                                 <h4>R</h4>
                                 <div class="skill-level">Intermediate</div>
@@ -986,7 +1169,7 @@
                     <div class="skill-category">
                         <h3>Data & Analytics Tools</h3>
                         <div class="skill-item">
-                            <div class="skill-icon">📈</div>
+                            <div class="skill-icon"><i class="fas fa-building"></i></div>
                             <div class="skill-info">
                                 <h4>SAP BO & BODS</h4>
                                 <div class="skill-level">Expert</div>
@@ -994,7 +1177,7 @@
                             </div>
                         </div>
                         <div class="skill-item">
-                            <div class="skill-icon">🔄</div>
+                            <div class="skill-icon"><i class="fab fa-aws"></i></div>
                             <div class="skill-info">
                                 <h4>Redshift</h4>
                                 <div class="skill-level">Advanced</div>
@@ -1002,7 +1185,7 @@
                             </div>
                         </div>
                         <div class="skill-item">
-                            <div class="skill-icon">📊</div>
+                            <div class="skill-icon"><i class="fas fa-chart-bar"></i></div>
                             <div class="skill-info">
                                 <h4>Tableau</h4>
                                 <div class="skill-level">Advanced</div>
@@ -1010,7 +1193,7 @@
                             </div>
                         </div>
                         <div class="skill-item">
-                            <div class="skill-icon">📈</div>
+                            <div class="skill-icon"><i class="fas fa-chart-pie"></i></div>
                             <div class="skill-info">
                                 <h4>Power BI</h4>
                                 <div class="skill-level">Intermediate</div>
@@ -1018,7 +1201,7 @@
                             </div>
                         </div>
                         <div class="skill-item">
-                            <div class="skill-icon">☁️</div>
+                            <div class="skill-icon"><i class="fab fa-aws"></i></div>
                             <div class="skill-info">
                                 <h4>AWS</h4>
                                 <div class="skill-level">Intermediate</div>
@@ -1030,7 +1213,7 @@
                     <div class="skill-category">
                         <h3>Machine Learning & AI</h3>
                         <div class="skill-item">
-                            <div class="skill-icon">🤖</div>
+                            <div class="skill-icon"><i class="fas fa-robot"></i></div>
                             <div class="skill-info">
                                 <h4>Machine Learning</h4>
                                 <div class="skill-level">Advanced</div>
@@ -1038,7 +1221,7 @@
                             </div>
                         </div>
                         <div class="skill-item">
-                            <div class="skill-icon">🧠</div>
+                            <div class="skill-icon"><i class="fas fa-network-wired"></i></div>
                             <div class="skill-info">
                                 <h4>Deep Learning</h4>
                                 <div class="skill-level">Intermediate</div>
@@ -1046,7 +1229,7 @@
                             </div>
                         </div>
                         <div class="skill-item">
-                            <div class="skill-icon">💬</div>
+                            <div class="skill-icon"><i class="fas fa-comment-dots"></i></div>
                             <div class="skill-info">
                                 <h4>NLP</h4>
                                 <div class="skill-level">Advanced</div>
@@ -1054,7 +1237,7 @@
                             </div>
                         </div>
                         <div class="skill-item">
-                            <div class="skill-icon">🔍</div>
+                            <div class="skill-icon"><i class="fas fa-eye"></i></div>
                             <div class="skill-info">
                                 <h4>Computer Vision</h4>
                                 <div class="skill-level">Intermediate</div>
@@ -1062,7 +1245,7 @@
                             </div>
                         </div>
                         <div class="skill-item">
-                            <div class="skill-icon">📊</div>
+                            <div class="skill-icon"><i class="fas fa-chart-area"></i></div>
                             <div class="skill-info">
                                 <h4>Data Science</h4>
                                 <div class="skill-level">Expert</div>
@@ -1150,7 +1333,9 @@
                 <div class="education-item">
                     <div style="display: flex; align-items: center; gap: 20px; margin-bottom: 20px;">
                         <div style="width: 60px; height: 60px; background: linear-gradient(135deg, var(--primary-color), #8b5cf6); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px;">
-                            🎓
+                            <div class="education-icon">
+                                <i class="fas fa-user-graduate"></i>  <!-- Master's Degree -->
+                            </div>
                         </div>
                         <div>
                             <h3 class="degree">Master of Science (MS) in Computer Science and Engineering</h3>
@@ -1172,7 +1357,9 @@
                 <div class="education-item">
                     <div style="display: flex; align-items: center; gap: 20px; margin-bottom: 20px;">
                         <div style="width: 60px; height: 60px; background: linear-gradient(135deg, var(--primary-color), #8b5cf6); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px;">
-                            🎓
+                            <div class="education-icon">
+                                <i class="fas fa-graduation-cap"></i>  <!-- Bachelor's Degree -->
+                            </div>
                         </div>
                         <div>
                             <h3 class="degree">Bachelor of Engineering (BE) in Electronics & Telecommunication</h3>
@@ -1376,18 +1563,38 @@
                             Hi! I'm Prathamesh's AI assistant. Feel free to ask me anything about his background, experience, skills, or projects. I'm here to help you learn more about him!
                         </div>
                     </div>
+                    <div class="conversation-starter">
+                        <p>Try asking:</p>
+                        <div>
+                            <span class="suggested-question" onclick="askQuestion('What are Prathamesh\'s technical skills?')">
+                                What are Prathamesh's technical skills?
+                            </span>
+                            <span class="suggested-question" onclick="askQuestion('Tell me about his experience at Capgemini')">
+                                Tell me about his experience at Capgemini
+                            </span>
+                            <span class="suggested-question" onclick="askQuestion('What projects has he worked on?')">
+                                What projects has he worked on?
+                            </span>
+                        </div>
+                    </div>
+                
                 </div>
                 <div class="chat-input-container">
-                    <input type="text" class="chat-input" placeholder="Ask anything about Prathamesh..." id="chatInputSecondary">
-                    <button class="chat-submit" onclick="submitChatSecondary()">
+                    <input type="text" class="chat-input" placeholder="Ask anything about Prathamesh..." id="chatInterfaceInput" onkeypress="handleChatInputKey(event)">
+                    <button class="chat-submit" onclick="submitChat()">
                         <i class="fas fa-paper-plane"></i>
                     </button>
                 </div>
+                
             </div>
         </main>
     </div>
-
+    <div class="api-status" id="apiStatusIndicator">
+        <span class="status-dot" id="statusDot"></span>
+        <span id="apiStatusText">API Status: Checking...</span>
+    </div>
     <script>
+        
         // Dynamic title rotation
         const titles = [
             'Python Lead',
@@ -1403,6 +1610,128 @@
         ];
         
         let titleIndex = 0;
+        let lastApiCall = 0;
+        const API_COOLDOWN = 2000;
+        // Hugging Face API integration
+        const GROQ_API_KEY = process.env.GROQ_API_KEY || 'fallback-to-local-responses';
+        const GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions";
+        
+        console.log("Script loaded");
+        
+        let conversationHistory = [];
+        let apiOnline = false;
+        const responseCache = new Map();
+        let isSubmitting = false;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log("DOM loaded, initializing...");
+            
+            // Check API status
+            checkApiStatus();
+            
+            // Set up chat inputs (check both possible IDs)
+            const chatInput1 = document.getElementById('chatInput');
+            const chatInput2 = document.getElementById('chatInterfaceInput');
+            
+            if (chatInput1) {
+                chatInput1.addEventListener('keypress', handleEnterKey);
+                console.log("✅ Main chat input listener added");
+            }
+            
+            if (chatInput2) {
+                chatInput2.addEventListener('keypress', handleEnterKey);
+                console.log("✅ Interface chat input listener added");
+            }
+            
+            // Add hover effects
+            const cards = document.querySelectorAll('.stat-card, .project-card, .skill-item');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', () => card.style.transform = 'translateY(-5px)');
+                card.addEventListener('mouseleave', () => card.style.transform = 'translateY(0)');
+            });
+            
+            console.log("✅ DOM initialization complete");
+        });
+
+        function handleEnterKey(event) {
+            if (event.key === 'Enter') {
+                console.log("↩️ Enter pressed, calling submitChat");
+                submitChat();
+            }
+        }
+
+        async function checkApiStatus() {
+            const statusElement = document.getElementById('apiStatusText');
+            const statusDot = document.getElementById('statusDot');
+            const apiStatusIndicator = document.getElementById('apiStatusIndicator');
+            
+            try {
+                apiStatusIndicator.className = "api-status checking";
+                statusDot.className = "status-dot";
+                statusElement.textContent = "API Status: Checking...";
+                
+                const response = await fetch(GROQ_API_URL, {
+                    method: "POST",
+                    headers: {
+                        "Authorization": `Bearer ${GROQ_API_KEY}`,
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        model: "llama-3.3-70b-versatile",
+                        messages: [
+                            {
+                                role: "user",
+                                content: "Hello"
+                            }
+                        ],
+                        max_tokens: 5
+                    })
+                });
+                
+                if (response.ok) {
+                    apiOnline = true;
+                    apiStatusIndicator.className = "api-status online";
+                    statusDot.className = "status-dot online";
+                    statusElement.textContent = "API Status: Online";
+                } else {
+                    const errorText = await response.text();
+                    console.error("Groq API Error Details:", {
+                        status: response.status,
+                        statusText: response.statusText,
+                        body: errorText
+                    });
+                    apiOnline = false;
+                    apiStatusIndicator.className = "api-status offline";
+                    statusDot.className = "status-dot offline";
+                    statusElement.textContent = `API Status: Error ${response.status}`;
+                }
+            } catch (error) {
+                apiOnline = false;
+                apiStatusIndicator.className = "api-status offline";
+                statusDot.className = "status-dot offline";
+                statusElement.textContent = "API Status: Connection Failed";
+                console.error("Groq API Connection Error:", error);
+        // ... existing error handling
+            }
+        }
+    
+        // Handle Enter key in chat input
+        function handleChatInputKey(event) {
+            if (event.key === 'Enter') {
+                submitChat();
+            }
+        }
+
+        function getCachedResponse(question) {
+            const key = question.toLowerCase().trim();
+            return responseCache.get(key);
+        }
+
+        function cacheResponse(question, response) {
+            const key = question.toLowerCase().trim();
+            responseCache.set(key, response);
+        }
+        
         
         function rotateTitles() {
             const titleElement = document.getElementById('dynamicTitle');
@@ -1431,6 +1760,7 @@
                 themeToggle.className = 'fas fa-sun';
             }
         }
+        
         function closeChatInterface() {
             document.getElementById('chatInterface').classList.add('hidden');
             document.getElementById('home').classList.remove('hidden');
@@ -1441,6 +1771,7 @@
             });
             document.querySelector('a[href="#home"]').classList.add('active');
         }
+        
         // Sidebar toggle
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
@@ -1458,6 +1789,14 @@
         // Accent color change
         function changeAccentColor(color) {
             document.documentElement.style.setProperty('--primary-color', color);
+        }
+        
+        function showInitials() {
+            const img = document.querySelector('.profile-image img');
+            const initials = document.getElementById('profileInitials');
+            
+            img.style.display = 'none';
+            initials.style.display = 'block';
         }
 
         // Navigation
@@ -1481,81 +1820,199 @@
             event.target.closest('.nav-link').classList.add('active');
         }
 
-        // Chat functionality
-        const knowledgeBase = {
-            "experience": "Prathamesh has 3+ years of professional experience. He currently works as a Teaching Assistant for SQL at SUNY Buffalo under Dr. Shamsad Parvin. Previously, he was an Associate (Python Lead) at Capgemini India for over 3 years, working on GE Lighting projects. He also founded Teraluna Tech Ventures, developing a hiring score platform.",
+        // Groq API call
+        async function queryGroqAPI(question) {
+            const now = Date.now();
+            if (now - lastApiCall < API_COOLDOWN) {
+                return getLocalResponse(question);
+            }
+            lastApiCall = now;
             
-            "skills": "Prathamesh is skilled in Python (Expert, 3+ years), SQL (Advanced, 3+ years), Machine Learning, Data Science, NLP, and various tools like SAP BO/BODS, Tableau, Power BI, AWS, and Redshift. He has designed 25+ ETL jobs and delivered 20+ Webi reports.",
+            const cached = getCachedResponse(question);
+            if (cached) {
+                return cached;
+            }
             
-            "education": "He holds a Bachelor's in Electronics & Telecommunication from Pillai College of Engineering, Mumbai University (CGPA: 8.79/10) and is currently pursuing his MS in Computer Science and Engineering at SUNY Buffalo.",
-            
-            "projects": "Notable projects include Fall Detection using Active Learning with OpenAI CLIP, Smart Attendance System using facial recognition (published in IEEE), volunteer management website for Vardhan, hall booking system, Baseball Mario game, and IoT home automation.",
-            
-            "certifications": "He has certifications from Amazon (Data Structures & Algorithms), Stanford (Machine Learning by Andrew NG), Google (Data Analysis), UC San Diego (Advanced Data Structures in Java), and Boston Institute of Tech (ML, Data Science & AI).",
-            
-            "volunteering": "Prathamesh is a Volunteer Manager at Vardhan since May 2022, teaching underprivileged children for 8 hours weekly and managing 25+ volunteers across 60km geography. He's established 5 automated management processes.",
-            
-            "hobbies": "He enjoys playing badminton and chess, watching baseball and tennis, reading, solving math problems, part-time math tutoring for international students, and working as a designer & content creator for brands like HUE and Stonk.",
-            
-            "contact": "You can reach Prathamesh at pdamle@buffalo.edu, phone +1 716 4150296, or connect via LinkedIn and GitHub. He's based in Buffalo, United States.",
-            
-            "achievements": "Key achievements include publishing research papers, founding a tech venture, receiving multiple certifications, designing 25+ ETL jobs, managing large volunteer teams, and maintaining excellent academic performance."
-        };
+            try {
+                showTypingIndicator();
+                
+                const response = await fetch(GROQ_API_URL, {
+                    method: "POST",
+                    headers: {
+                        "Authorization": `Bearer ${GROQ_API_KEY}`,
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        model: "llama-3.3-70b-versatile", // or "llama2-70b-4096"
+                        messages: [
+                            {
+                                role: "system",
+                                content: "You are Prathamesh Damle's AI assistant. Prathamesh is a Python Lead and Data Scientist currently pursuing MS in Computer Science at SUNY Buffalo. He has 3+ years of experience at Capgemini India, founded Teraluna Tech Ventures, and works on machine learning projects."
+                            },
+                            {
+                                role: "user",
+                                content: question
+                            }
+                        ],
+                        max_tokens: question.length > 50 ? 400 : 250,
+                        temperature: 0.7
+                    })
+                });
+                
+                removeTypingIndicator();
+                
+                if (response.ok) {
+                    const result = await response.json();
+                    const answer = result.choices[0].message.content;
+                    cacheResponse(question, answer);
+                    return answer;
+                } else {
+                    console.error("Groq API Error:", response.status, response.statusText);
+                    return getLocalResponse(question);
+                }
+                
+            } catch (error) {
+                console.error("Groq API Error:", error);
+                removeTypingIndicator();
+                return getLocalResponse(question);
+            }
+        }
 
-        function getAIResponse(question) {
+        function getLocalResponse(question) {
             const q = question.toLowerCase();
             
             if (q.includes('experience') || q.includes('work') || q.includes('job') || q.includes('capgemini')) {
-                return knowledgeBase.experience;
-            } else if (q.includes('skill') || q.includes('technical') || q.includes('programming') || q.includes('python') || q.includes('sql')) {
-                return knowledgeBase.skills;
-            } else if (q.includes('education') || q.includes('school') || q.includes('university') || q.includes('degree') || q.includes('study')) {
-                return knowledgeBase.education;
-            } else if (q.includes('project') || q.includes('fall detection') || q.includes('attendance') || q.includes('game') || q.includes('iot')) {
-                return knowledgeBase.projects;
-            } else if (q.includes('certification') || q.includes('course') || q.includes('training')) {
-                return knowledgeBase.certifications;
-            } else if (q.includes('volunteer') || q.includes('vardhan') || q.includes('community')) {
-                return knowledgeBase.volunteering;
-            } else if (q.includes('hobby') || q.includes('hobbies') || q.includes('interest') || q.includes('entertainment') || q.includes('badminton') || q.includes('chess')) {
-                return knowledgeBase.hobbies;
+                return "Prathamesh has 3+ years of professional experience. He worked at Capgemini as a Python Lead from 2021-2024, where he designed ETL jobs and performed sentiment analysis using NLP. He also founded Teraluna Tech Ventures, a recruitment technology startup.";
+            } else if (q.includes('skill') || q.includes('technical') || q.includes('python') || q.includes('sql')) {
+                return "Prathamesh's technical skills include Python (expert), SQL (advanced), Machine Learning, Data Science, NLP, SAP BO/BODS, Tableau, and AWS. He has 3+ years of experience with Python and SQL, and 2+ years with machine learning and data visualization tools.";
+            } else if (q.includes('education') || q.includes('degree') || q.includes('school')) {
+                return "Prathamesh holds a Bachelor's in Electronics & Telecommunication from Pillai College of Engineering (Mumbai University) and is currently pursuing a Master's in Computer Science at SUNY Buffalo, specializing in Data Science and Machine Learning.";
+            } else if (q.includes('project') || q.includes('work on') || q.includes('built')) {
+                return "Some of Prathamesh's notable projects include: 1) Fall Detection using Active Learning (PyTorch, OpenCV), 2) Smart Attendance System with facial recognition (published in IEEE), 3) Volunteer Management Website for Vardhan NGO, and 4) IoT Home Automation system.";
+            } else if (q.includes('volunteer') || q.includes('ngo') || q.includes('community')) {
+                return "Prathamesh is a Volunteer Manager at Vardhan NGO, where he teaches underprivileged children for 8 hours weekly. He manages 25+ volunteers and has established automated management processes for the organization.";
             } else if (q.includes('contact') || q.includes('email') || q.includes('phone') || q.includes('reach')) {
-                return knowledgeBase.contact;
-            } else if (q.includes('achievement') || q.includes('award') || q.includes('recognition')) {
-                return knowledgeBase.achievements;
+                return "You can contact Prathamesh via email at pdamle@buffalo.edu, phone at +1 716 4150296, or connect with him on LinkedIn and GitHub.";
             } else if (q.includes('hello') || q.includes('hi') || q.includes('hey')) {
-                return "Hello! I'm Prathamesh's AI assistant. I can tell you about his experience, skills, education, projects, and more. What would you like to know?";
-            } else if (q.includes('looking for') || q.includes('opportunities') || q.includes('seeking')) {
-                return "Prathamesh is currently pursuing his MS in Computer Science at SUNY Buffalo and working as a Teaching Assistant. He's interested in data science, machine learning, and software engineering opportunities, particularly roles that combine his technical skills with his passion for education and community impact.";
+                return "Hello! I'm Prathamesh's AI assistant. How can I help you learn about his professional background?";
             } else {
-                return "I can help you learn about Prathamesh's background, experience, skills, education, projects, certifications, volunteering work, and hobbies. What specific aspect would you like to know more about?";
+                return "I can help you learn about Prathamesh's experience, skills, education, projects, and volunteering work. What specific information are you looking for?";
+            }
+        }
+
+        async function submitTestQuery() {
+            try {
+                const response = await queryGroqAPI("Helllo");
+                console.log("API Test Successful:", response);
+            } catch (error) {
+                console.log("API Test Failed:", error);
+            }
+        }
+
+        function showTypingIndicator() {
+            const messagesContainer = document.getElementById('chatMessages');
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'typing-indicator';
+            typingDiv.id = 'typingIndicator';
+            typingDiv.innerHTML = `
+                <div class="message-avatar">P</div>
+                <div class="message-content">
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                </div>
+            `;
+            messagesContainer.appendChild(typingDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+        
+        function removeTypingIndicator() {
+            const typingIndicator = document.getElementById('typingIndicator');
+            if (typingIndicator) {
+                typingIndicator.remove();
             }
         }
 
         function askQuestion(question) {
-            document.getElementById('chatInput').value = question;
-            submitChat();
+            let input = document.getElementById('chatInterfaceInput') || document.getElementById('chatInput');
+            if (input) {
+                input.value = question;
+                submitChat();
+            }
         }
 
-        function submitChat() {
-            const input = document.getElementById('chatInput');
-            const question = input.value.trim();
+        async function submitChat() {
+            console.log("🔄 submitChat() called");
+            if (isSubmitting) {
+                console.log("⏳ Already submitting, skipping");
+                return;
+            }
             
-            if (!question) return;
+            isSubmitting = true;
+            console.log("🔄 submitChat() called");
+            // Find ANY available input
+            let input = document.getElementById('chatInput') || document.getElementById('chatInterfaceInput');
+            
+            if (!input) {
+                console.error("❌ No chat input found");
+                return;
+            }
+            
+            const question = input.value.trim();
+            console.log("❓ Question:", question);
+            
+            if (!question) {
+                console.log("❌ Empty question, returning");
+                return;
+            }
             
             showChatInterface();
             addMessage(question, 'user');
             
-            setTimeout(() => {
-                const response = getAIResponse(question);
+            try {
+                const response = await queryGroqAPI(question);
                 addMessage(response, 'ai');
-            }, 1000);
+            } catch (error) {
+                removeTypingIndicator();
+                addMessage("I'm experiencing high traffic. Let me answer from my knowledge base.", 'ai');
+                const fallbackResponse = getLocalResponse(question);
+                addMessage(fallbackResponse, 'ai');
+            }
             
             input.value = '';
             addToRecentSearches(question);
+            isSubmitting = false;
+            console.log("✨ submitChat() completed");
         }
-
-        function submitChatSecondary() {
+        
+        function showChatInterface() {
+            console.log("🖥️ showChatInterface() called");
+            
+            const chatInterface = document.getElementById('chatInterface');
+            
+            // If chat is already open, don't do anything
+            if (!chatInterface.classList.contains('hidden')) {
+                console.log("💬 Chat already open, skipping");
+                return;
+            }
+            
+            // Hide all sections
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.add('hidden');
+            });
+            
+            // Show chat interface
+            chatInterface.classList.remove('hidden');
+            
+            // Update active nav link
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            console.log("✅ Chat interface shown");
+        }
+        
+        async function submitChatSecondary() {
             const input = document.getElementById('chatInputSecondary');
             const question = input.value.trim();
             
@@ -1563,25 +2020,15 @@
             
             addMessage(question, 'user');
             
-            setTimeout(() => {
-                const response = getAIResponse(question);
+            try {
+                const response = await queryGroqAPI(question);
                 addMessage(response, 'ai');
-            }, 1000);
+            } catch (error) {
+                addMessage("Sorry, I encountered an error processing your request.", 'ai');
+            }
             
             input.value = '';
             addToRecentSearches(question);
-        }
-
-        function showChatInterface() {
-            document.querySelectorAll('.section').forEach(section => {
-                section.classList.add('hidden');
-            });
-            
-            document.getElementById('chatInterface').classList.remove('hidden');
-            
-            document.querySelectorAll('.nav-link').forEach(link => {
-                link.classList.remove('active');
-            });
         }
 
         function addMessage(content, sender) {
@@ -1590,49 +2037,47 @@
             messageDiv.className = `message ${sender}`;
             
             const avatar = sender === 'user' ? 'Y' : 'P';
-            const avatarClass = sender === 'user' ? 'user' : '';
             
             messageDiv.innerHTML = `
-                <div class="message-avatar ${avatarClass}">${avatar}</div>
+                <div class="message-avatar">${avatar}</div>
                 <div class="message-content">${content}</div>
             `;
             
             messagesContainer.appendChild(messageDiv);
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            
+            // Remove conversation starter after first message
+            const starter = document.querySelector('.conversation-starter');
+            if (starter) {
+                starter.remove();
+            }
         }
 
         function addToRecentSearches(question) {
-            // This would typically save to localStorage, but we'll just update the UI
-            console.log('Added to recent searches:', question);
+            const recentSearches = document.querySelector('.recent-searches');
+            const newSearch = document.createElement('div');
+            newSearch.className = 'recent-search';
+            newSearch.textContent = question.length > 40 ? question.substring(0, 37) + '...' : question;
+            newSearch.onclick = () => askQuestion(question);
+            
+            // Add to top (after the h4 header)
+            const header = recentSearches.querySelector('h4');
+            if (header && header.nextSibling) {
+                recentSearches.insertBefore(newSearch, header.nextSibling);
+            } else {
+                recentSearches.appendChild(newSearch);
+            }
+            
+            // Keep only latest 2 searches (plus the header)
+            const searches = recentSearches.querySelectorAll('.recent-search');
+            if (searches.length > 2) {
+                // Remove oldest searches beyond the 2 most recent
+                for (let i = 2; i < searches.length; i++) {
+                    searches[i].remove();
+                }
+            }
         }
 
-        // Handle enter key in chat inputs
-        document.getElementById('chatInput').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                submitChat();
-            }
-        });
-
-        document.getElementById('chatInputSecondary').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                submitChatSecondary();
-            }
-        });
-
-        // Add hover animations
-        document.addEventListener('DOMContentLoaded', function() {
-            // Add hover effects to cards
-            const cards = document.querySelectorAll('.stat-card, .project-card, .skill-item');
-            cards.forEach(card => {
-                card.addEventListener('mouseenter', function() {
-                    this.style.transform = 'translateY(-5px)';
-                });
-                
-                card.addEventListener('mouseleave', function() {
-                    this.style.transform = 'translateY(0)';
-                });
-            });
-        });
     </script>
 </body>
 </html>
