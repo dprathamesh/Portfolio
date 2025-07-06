@@ -1923,8 +1923,19 @@
             
             isSubmitting = true;
             
-            // Find ANY available input
-            let input = document.getElementById('chatInput') || document.getElementById('chatInterfaceInput');
+            // Get the correct input based on which section is visible
+            let input;
+            const chatInterface = document.getElementById('chatInterface');
+            
+            if (!chatInterface.classList.contains('hidden')) {
+                // Chat interface is open - use interface input
+                input = document.getElementById('chatInterfaceInput');
+            } else {
+                // Home section is visible - use main input
+                input = document.getElementById('chatInput');
+            }
+            
+            console.log("🎯 Using input:", input ? input.id : 'none found');
             
             if (!input) {
                 console.error("❌ No chat input found");
@@ -1933,7 +1944,7 @@
             }
             
             const question = input.value.trim();
-            console.log("❓ Question:", question);
+            console.log("❓ Question:", `"${question}"`);
             
             if (!question) {
                 console.log("❌ Empty question, returning");
