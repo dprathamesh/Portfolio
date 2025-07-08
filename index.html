@@ -1007,6 +1007,12 @@
                             <span class="nav-text">Projects</span>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a href="#certifications" class="nav-link" onclick="showSection('certifications')">
+                            <i class="fa-solid fa-certificate"></i>
+                            <span class="nav-text">Certifications</span>
+                        </a>
+                    </li>
                 </ul>
             </nav>
 
@@ -1255,7 +1261,6 @@
                     </div>
                 </div>
             </section>
-
             <!-- Experience Section -->
             <section id="experience" class="section hidden">
                 <h2 style="text-align: center; margin-bottom: 40px; font-size: 32px;">Work Experience</h2>
@@ -1325,58 +1330,49 @@
                     </div>
                 </div>
             </section>
-
-            <!-- Education Section -->
+            <!-- Education Section - Updated to match Experience timeline style -->
             <section id="education" class="section hidden">
                 <h2 style="text-align: center; margin-bottom: 40px; font-size: 32px;">Education</h2>
                 
-                <div class="education-item">
-                    <div style="display: flex; align-items: center; gap: 20px; margin-bottom: 20px;">
-                        <div style="width: 60px; height: 60px; background: linear-gradient(135deg, var(--primary-color), #8b5cf6); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px;">
-                            <div class="education-icon">
-                                <i class="fas fa-user-graduate"></i>  <!-- Master's Degree -->
+                <div class="experience-timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-dot">
+                            <i class="fas fa-user-graduate"></i>
+                        </div>
+                        <div class="timeline-content">
+                            <h3 class="job-title">Master of Science (MS) in Computer Science and Engineering</h3>
+                            <div class="company">State University of New York, Buffalo</div>
+                            <div class="date-range">January 2025 - Present</div>
+                            <div class="job-description">
+                                <strong>Specialization:</strong> Data Science & Machine Learning
                             </div>
-                        </div>
-                        <div>
-                            <h3 class="degree">Master of Science (MS) in Computer Science and Engineering</h3>
-                            <div class="specialization">Data Science & Machine Learning</div>
-                            <div class="university">State University of New York, Buffalo</div>
-                            <div class="date-range">📅 January 2025 - Present</div>
+                            <ul class="achievements">
+                                <li>Teaching Assistant for SQL course under Dr. Shamsad Parvin</li>
+                                <li>Focus on Advanced Machine Learning and Data Analytics</li>
+                                <li>Active participant in research projects and academic collaborations</li>
+                            </ul>
                         </div>
                     </div>
-                    <div>
-                        <h4>🏆 Achievements</h4>
-                        <ul class="achievements">
-                            <li>Teaching Assistant for SQL course under Dr. Shamsad Parvin</li>
-                            <li>Focus on Advanced Machine Learning and Data Analytics</li>
-                            <li>Active participant in research projects and academic collaborations</li>
-                        </ul>
-                    </div>
-                </div>
 
-                <div class="education-item">
-                    <div style="display: flex; align-items: center; gap: 20px; margin-bottom: 20px;">
-                        <div style="width: 60px; height: 60px; background: linear-gradient(135deg, var(--primary-color), #8b5cf6); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px;">
-                            <div class="education-icon">
-                                <i class="fas fa-graduation-cap"></i>  <!-- Bachelor's Degree -->
+                    <div class="timeline-item">
+                        <div class="timeline-dot">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <div class="timeline-content">
+                            <h3 class="job-title">Bachelor of Engineering (BE) in Electronics & Telecommunication</h3>
+                            <div class="company">Pillai College of Engineering, Mumbai University</div>
+                            <div class="date-range">August 2017 - June 2021</div>
+                            <div class="job-description">
+                                <strong>Specialization:</strong> OOP & DBMS Coursework
                             </div>
+                            <ul class="achievements">
+                                <li>CGPA: 8.79/10</li>
+                                <li>Published research paper at CTFC (national level conference)</li>
+                                <li>Paper also published in IEEE magazine edition</li>
+                                <li>Founded Teraluna Tech Ventures during final year</li>
+                                <li>Completed multiple software development projects</li>
+                            </ul>
                         </div>
-                        <div>
-                            <h3 class="degree">Bachelor of Engineering (BE) in Electronics & Telecommunication</h3>
-                            <div class="specialization">OOP & DBMS Coursework</div>
-                            <div class="university">Pillai College of Engineering, Mumbai University</div>
-                            <div class="date-range">📅 August 2017 - June 2021</div>
-                        </div>
-                    </div>
-                    <div>
-                        <h4>🏆 Achievements</h4>
-                        <ul class="achievements">
-                            <li>CGPA: 8.79/10</li>
-                            <li>Published research paper at CTFC (national level conference)</li>
-                            <li>Paper also published in IEEE magazine edition</li>
-                            <li>Founded Teraluna Tech Ventures during final year</li>
-                            <li>Completed multiple software development projects</li>
-                        </ul>
                     </div>
                 </div>
             </section>
@@ -1386,6 +1382,7 @@
                 <h2 style="text-align: center; margin-bottom: 40px; font-size: 32px;">Projects</h2>
                 
                 <div class="projects-grid">
+                    <!-- Fall Detection using Active Learning -->
                     <div class="project-card">
                         <div class="project-image">
                             <i class="fas fa-user-injured"></i>
@@ -1393,7 +1390,7 @@
                         <div class="project-content">
                             <h3 class="project-title">Fall Detection using Active Learning</h3>
                             <p class="project-description">
-                                Implemented an OpenAI CLIP-based VadCLIP framework with Active Learning loop for real-time fall detection. Used PyTorch, OpenCV, and Flask to create an end-to-end solution.
+                                Implemented an OpenAI CLIP-based VadCLIP framework with Active Learning loop for real-time fall detection. Used PyTorch, OpenCV, and Flask to create an end-to-end solution. <span style="color: var(--primary-color); font-weight: bold;">[In Development]</span>
                             </p>
                             <div class="tech-tags">
                                 <span class="tech-tag">Python</span>
@@ -1404,145 +1401,282 @@
                                 <span class="tech-tag">CLIP</span>
                             </div>
                             <div class="project-links">
-                                <a href="#" class="project-link">
+                                <a href="https://github.com/dprathamesh/Fall-Detection-using-OpenAI-CLIP" class="project-link" target="_blank">
                                     <i class="fas fa-code"></i> Code
-                                </a>
-                                <a href="#" class="project-link">
-                                    <i class="fas fa-external-link-alt"></i> Demo
                                 </a>
                             </div>
                         </div>
                     </div>
 
+                    <!-- Transportation Data Science Project (Combined NYC + TDSP) -->
+                    <div class="project-card">
+                        <div class="project-image">
+                            <i class="fas fa-car-crash"></i>
+                        </div>
+                        <div class="project-content">
+                            <h3 class="project-title">Transportation Data Science Explorer (NYC Collision Analysis)</h3>
+                            <p class="project-description">
+                                Six-milestone transportation safety project analyzing NYC collision data to predict crash possibilities at intersections. Implemented complete ML pipeline with data preprocessing, EDA, machine learning models, PySpark for distributed processing, and dashboard creation.
+                            </p>
+                            <div class="tech-tags">
+                                <span class="tech-tag">Python</span>
+                                <span class="tech-tag">PySpark</span>
+                                <span class="tech-tag">Machine Learning</span>
+                                <span class="tech-tag">Time Series Analysis</span>
+                                <span class="tech-tag">Geospatial Analysis</span>
+                                <span class="tech-tag">Dashboard</span>
+                            </div>
+                            <div class="project-links">
+                                <a href="https://github.com/dprathamesh/Transportation-Data-Science-Project" class="project-link" target="_blank">
+                                    <i class="fas fa-code"></i> GitHub
+                                </a>
+                                <a href="#" class="project-link">
+                                    <i class="fas fa-chart-bar"></i> Dashboard
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Power BI Dashboards -->
+                    <div class="project-card">
+                        <div class="project-image">
+                            <i class="fas fa-chart-pie"></i>
+                        </div>
+                        <div class="project-content">
+                            <h3 class="project-title">Power BI Dashboard Collection</h3>
+                            <p class="project-description">
+                                Portfolio of interactive Power BI dashboards for business intelligence and data visualization. Features sales analytics and comprehensive KPI tracking with advanced DAX calculations and dynamic filtering.
+                            </p>
+                            <div class="tech-tags">
+                                <span class="tech-tag">Power BI</span>
+                                <span class="tech-tag">DAX</span>
+                                <span class="tech-tag">Data Visualization</span>
+                                <span class="tech-tag">Business Intelligence</span>
+                                <span class="tech-tag">KPI Tracking</span>
+                            </div>
+                            <div class="project-links">
+                                <a href="https://app.powerbi.com/view?r=eyJrIjoiYjMzNzY3NGEtOWRkNC00MmJjLWFkNGItN2U4MzQ3NWM4M2FiIiwidCI6Ijk2NDY0YThhLWY4ZWQtNDBiMS05OWUyLTVmNmI1MGEyMDI1MCIsImMiOjN9" class="project-link" target="_blank">
+                                    <i class="fas fa-chart-bar"></i> Sales Dashboard
+                                </a>
+                                <a href="https://app.powerbi.com/view?r=eyJrIjoiZDExYWQxMjQtNDY0NC00YjU0LWJhZGUtMzJlYjU3NjFmNTIzIiwidCI6Ijk2NDY0YThhLWY4ZWQtNDBiMS05OWUyLTVmNmI1MGEyMDI1MCIsImMiOjN9" class="project-link" target="_blank">
+                                    <i class="fas fa-external-link-alt"></i> First Dashboard
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- BIA ML & AI Projects -->
+                    <div class="project-card">
+                        <div class="project-image">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <div class="project-content">
+                            <h3 class="project-title">Advanced ML & AI Algorithm Library</h3>
+                            <p class="project-description">
+                                Extensive collection of cutting-edge machine learning and AI algorithms from Boston Institute of Analytics. Features neural networks, ensemble methods, NLP models, computer vision implementations, and optimization techniques with real-world applications.
+                            </p>
+                            <div class="tech-tags">
+                                <span class="tech-tag">Python</span>
+                                <span class="tech-tag">Neural Networks</span>
+                                <span class="tech-tag">Ensemble Methods</span>
+                                <span class="tech-tag">NLP</span>
+                                <span class="tech-tag">Computer Vision</span>
+                                <span class="tech-tag">Optimization</span>
+                            </div>
+                            <div class="project-links">
+                                <a href="https://github.com/dprathamesh/BIA-ML" class="project-link" target="_blank">
+                                    <i class="fas fa-code"></i> GitHub
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Academic Course Projects -->
+                    <div class="project-card">
+                        <div class="project-image">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <div class="project-content">
+                            <h3 class="project-title">Masters Coursework Projects</h3>
+                            <p class="project-description">
+                                Collection of advanced projects from SUNY Buffalo Masters program including Machine Learning algorithms, Deep Learning implementations, and Data-Intensive Computing with distributed systems.
+                            </p>
+                            <div class="tech-tags">
+                                <span class="tech-tag">Python</span>
+                                <span class="tech-tag">TensorFlow</span>
+                                <span class="tech-tag">Deep Learning</span>
+                                <span class="tech-tag">Distributed Computing</span>
+                                <span class="tech-tag">Big Data</span>
+                            </div>
+                            <div class="project-links">
+                                <a href="https://github.com/dprathamesh/Masters-SUNY-Buffalo-ML" class="project-link" target="_blank">
+                                    <i class="fas fa-brain"></i> ML Course
+                                </a>
+                                <a href="https://github.com/dprathamesh/Masters-SUNY-Buffalo-DIC" class="project-link" target="_blank">
+                                    <i class="fas fa-database"></i> DIC Course
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Extracurricular Projects -->
                     <div class="project-card">
                         <div class="project-image">
                             <i class="fas fa-user-check"></i>
                         </div>
                         <div class="project-content">
-                            <h3 class="project-title">Smart Attendance System using Facial Recognition</h3>
+                            <h3 class="project-title">Extracurricular & Personal Projects</h3>
                             <p class="project-description">
-                                Developed a facial recognition attendance system using Multi-Task Convoluted Neural Network (MT-CNN). Published research paper at CTFC conference and IEEE magazine.
+                                Collection of personal projects including smart attendance system using facial recognition (published in IEEE), volunteer management website for NGO, IoT home automation, and various game development projects.
                             </p>
                             <div class="tech-tags">
-                                <span class="tech-tag">Python</span>
-                                <span class="tech-tag">Tkinter</span>
-                                <span class="tech-tag">PyQt</span>
-                                <span class="tech-tag">SQLite</span>
-                                <span class="tech-tag">MT-CNN</span>
                                 <span class="tech-tag">Computer Vision</span>
-                            </div>
-                            <div class="project-links">
-                                <a href="#" class="project-link">
-                                    <i class="fas fa-code"></i> Code
-                                </a>
-                                <a href="#" class="project-link">
-                                    <i class="fas fa-file-alt"></i> Paper
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="project-card">
-                        <div class="project-image">
-                            <i class="fas fa-users"></i>
-                        </div>
-                        <div class="project-content">
-                            <h3 class="project-title">Vardhan Volunteer Management Website</h3>
-                            <p class="project-description">
-                                Created a comprehensive website to manage and recruit volunteers for Vardhan NGO. Includes automated processes and tracking systems.
-                            </p>
-                            <div class="tech-tags">
-                                <span class="tech-tag">HTML5</span>
-                                <span class="tech-tag">CSS3</span>
-                                <span class="tech-tag">JavaScript</span>
-                                <span class="tech-tag">Bootstrap</span>
-                            </div>
-                            <div class="project-links">
-                                <a href="#" class="project-link">
-                                    <i class="fas fa-code"></i> Code
-                                </a>
-                                <a href="#" class="project-link">
-                                    <i class="fas fa-external-link-alt"></i> Live
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="project-card">
-                        <div class="project-image">
-                            <i class="fas fa-calendar-check"></i>
-                        </div>
-                        <div class="project-content">
-                            <h3 class="project-title">Hall Booking & Management System</h3>
-                            <p class="project-description">
-                                Developed a complete hall booking and management system with sports management features using C# and .NET framework.
-                            </p>
-                            <div class="tech-tags">
-                                <span class="tech-tag">C#</span>
-                                <span class="tech-tag">.NET</span>
-                                <span class="tech-tag">SQL Server</span>
-                                <span class="tech-tag">ASP.NET</span>
-                            </div>
-                            <div class="project-links">
-                                <a href="#" class="project-link">
-                                    <i class="fas fa-code"></i> Code
-                                </a>
-                                <a href="#" class="project-link">
-                                    <i class="fas fa-external-link-alt"></i> Demo
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="project-card">
-                        <div class="project-image">
-                            <i class="fas fa-gamepad"></i>
-                        </div>
-                        <div class="project-content">
-                            <h3 class="project-title">Baseball Mario Game</h3>
-                            <p class="project-description">
-                                Developed a basic 'Baseball Mario' game with 3 levels using Python. Features game mechanics, scoring system, and progressive difficulty.
-                            </p>
-                            <div class="tech-tags">
-                                <span class="tech-tag">Python</span>
-                                <span class="tech-tag">Pygame</span>
-                                <span class="tech-tag">Game Development</span>
-                            </div>
-                            <div class="project-links">
-                                <a href="#" class="project-link">
-                                    <i class="fas fa-code"></i> Code
-                                </a>
-                                <a href="#" class="project-link">
-                                    <i class="fas fa-play"></i> Play
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="project-card">
-                        <div class="project-image">
-                            <i class="fas fa-home"></i>
-                        </div>
-                        <div class="project-content">
-                            <h3 class="project-title">IoT Home Automation</h3>
-                            <p class="project-description">
-                                Implemented Internet of Things (IoT) based home automation system with remote control capabilities and smart device integration.
-                            </p>
-                            <div class="tech-tags">
+                                <span class="tech-tag">Web Development</span>
                                 <span class="tech-tag">IoT</span>
-                                <span class="tech-tag">Arduino</span>
-                                <span class="tech-tag">Sensors</span>
-                                <span class="tech-tag">WiFi</span>
-                                <span class="tech-tag">Mobile App</span>
+                                <span class="tech-tag">Game Development</span>
+                                <span class="tech-tag">Mobile Apps</span>
                             </div>
                             <div class="project-links">
-                                <a href="#" class="project-link">
-                                    <i class="fas fa-code"></i> Code
-                                </a>
-                                <a href="#" class="project-link">
-                                    <i class="fas fa-video"></i> Demo
+                                <a href="https://github.com/dprathamesh" class="project-link" target="_blank">
+                                    <i class="fas fa-code"></i> Main Repository
                                 </a>
                             </div>
+                        </div>
+                    </div>
+                </div>
+                        </section>
+
+            <!-- Certifications Section -->
+            <section id="certifications" class="section hidden">
+                <h2 style="text-align: center; margin-bottom: 40px; font-size: 32px;">Certifications & Achievements</h2>
+                
+                <div class="experience-timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-dot">
+                            <i class="fab fa-amazon"></i>
+                        </div>
+                        <div class="timeline-content">
+                            <h3 class="job-title">Data Structures and Algorithms</h3>
+                            <div class="company">Amazon</div>
+                            <div class="date-range">July 2024 - October 2024</div>
+                            <div class="job-description">
+                                Advanced algorithmic thinking and problem-solving skills certification from Amazon's technical training program.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-dot">
+                            <i class="fas fa-route"></i>
+                        </div>
+                        <div class="timeline-content">
+                            <h3 class="job-title">Explorer Transportation Data Science Project</h3>
+                            <div class="company">Northeast Big Data Innovation Hub & National Student Data Corps</div>
+                            <div class="date-range">October 2024 - January 2025</div>
+                            <div class="job-description">
+                                Completed comprehensive 6-milestone transportation data science project in collaboration with U.S. Department of Transportation Federal Highway Administration.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-dot">
+                            <i class="fab fa-java"></i>
+                        </div>
+                        <div class="timeline-content">
+                            <h3 class="job-title">Advanced Data Structures in Java</h3>
+                            <div class="company">UC San Diego</div>
+                            <div class="date-range">August 2024 - November 2024</div>
+                            <div class="job-description">
+                                Mastered advanced data structures implementation and optimization techniques using Java programming language.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-dot">
+                            <i class="fas fa-university"></i>
+                        </div>
+                        <div class="timeline-content">
+                            <h3 class="job-title">Machine Learning Specialization</h3>
+                            <div class="company">Stanford Online (Andrew NG)</div>
+                            <div class="date-range">August 2024 - December 2024</div>
+                            <div class="job-description">
+                                Comprehensive machine learning specialization covering supervised learning, unsupervised learning, neural networks, and practical applications taught by Andrew Ng.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-dot">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <div class="timeline-content">
+                            <h3 class="job-title">Machine Learning, Data Science & AI</h3>
+                            <div class="company">Boston Institute of Analytics</div>
+                            <div class="date-range">January 2024 - June 2024</div>
+                            <div class="job-description">
+                                Comprehensive course with hands-on projects culminating in predicting effective KPIs for an apparel ad campaign using Random Forest model.
+                            </div>
+                            <ul class="achievements">
+                                <li>Tested and compared five different regression models for optimal performance</li>
+                                <li>Deployed machine learning solution using Streamlit framework</li>
+                                <li>Created interactive dashboard using Tableau for data visualization</li>
+                                <li>Implemented end-to-end data science pipeline from data collection to deployment</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-dot">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <div class="timeline-content">
+                            <h3 class="job-title">Data Structures & Algorithms</h3>
+                            <div class="company">University of Colorado, Boulder</div>
+                            <div class="date-range">October 2023 - December 2023</div>
+                            <div class="job-description">
+                                Comprehensive study of fundamental data structures and algorithmic problem-solving techniques.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-dot">
+                            <i class="fab fa-google"></i>
+                        </div>
+                        <div class="timeline-content">
+                            <h3 class="job-title">Data Analysis Course (8-phase)</h3>
+                            <div class="company">Google</div>
+                            <div class="date-range">June 2023 - October 2023</div>
+                            <div class="job-description">
+                                Comprehensive 8-phase Google Data Analytics Professional Certificate covering the complete data analyst workflow.
+                            </div>
+                            <ul class="achievements">
+                                <li>Mastered data access and extraction using SQL databases</li>
+                                <li>Advanced data cleaning and transformation techniques using Python</li>
+                                <li>Professional dashboard creation and data presentation methods</li>
+                                <li>End-to-end data analysis project implementation and deployment</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-dot">
+                            <i class="fas fa-cloud"></i>
+                        </div>
+                        <div class="timeline-content">
+                            <h3 class="job-title">SAP Analytical Cloud, Snowflake Essentials & L0 Architect</h3>
+                            <div class="company">SAP & Snowflake</div>
+                            <div class="date-range">September 2021 - July 2024</div>
+                            <div class="job-description">
+                                Professional certifications in enterprise cloud analytics platforms and data architecture fundamentals.
+                            </div>
+                            <ul class="achievements">
+                                <li>SAP Analytical Cloud Practitioner certification</li>
+                                <li>Snowflake Essentials for data warehousing</li>
+                                <li>L0 Architect certification for system design</li>
+                            </ul>
                         </div>
                     </div>
                 </div>
