@@ -948,6 +948,30 @@
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
+    
+    .profile-section {
+        text-align: center;
+        margin-bottom: 25px;
+        position: relative;
+        z-index: 2;
+    }
+
+    /* Interactive Grid Animation */
+    .interactive-grid {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        pointer-events: none;
+        z-index: -1;
+        opacity: 0.6;
+    }
+
+    .grid-canvas {
+        width: 100%;
+        height: 100%;
+    }
     </style>
 </head>
 <body>
@@ -1044,6 +1068,10 @@
 
             <!-- Home Section -->
             <section id="home" class="section">
+                <!-- Interactive Grid Animation -->
+                <div class="interactive-grid">
+                    <canvas class="grid-canvas" id="gridCanvas"></canvas>
+                </div>
                 <div class="profile-section">
                     <div class="profile-image">
                         <img src="images/profile.jpg" alt="Prathamesh S. Damle" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">
@@ -1752,6 +1780,100 @@
 
         console.log("Script loaded");
 
+        // Interactive Grid Animation
+        class InteractiveGrid {
+            constructor(canvas) {
+                this.canvas = canvas;
+                this.ctx = canvas.getContext('2d');
+                this.mouse = { x: -1000, y: -1000 };
+                this.lastMoveTime = 0;
+                this.fadeTimeout = null;
+                
+                this.canvas.width = window.innerWidth;
+                this.canvas.height = window.innerHeight;
+                this.globalOpacity = 0;
+                this.isFading = false;
+                
+                // Mouse tracking
+                document.addEventListener('mousemove', (e) => {
+                    this.mouse.x = e.clientX;
+                    this.mouse.y = e.clientY;
+                    this.lastMoveTime = Date.now();
+                    this.isFading = false;        // Add this line
+                    this.globalOpacity = 1;
+                    
+                    // Clear existing timeout
+                    if (this.fadeTimeout) {
+                        clearTimeout(this.fadeTimeout);
+                    }
+                    
+                    // Set new timeout to fade after 2 seconds
+                    this.fadeTimeout = setTimeout(() => {
+                        this.isFading = true; 
+                    }, 200);
+                });
+                
+                this.draw();
+            }
+            
+            draw() {
+                this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+                if (this.isFading) {
+                    this.globalOpacity -= 0.02;
+                    if (this.globalOpacity <= 0) {
+                        this.globalOpacity = 0;
+                        this.mouse.x = -1000;
+                        this.mouse.y = -1000;
+                        this.isFading = false;
+                    }
+                }
+                // Only draw if mouse is on screen
+                if (this.mouse.x > -500 && this.mouse.y > -500) {
+                    const gridSize = 40;
+                    const radius = 120;
+                    
+                    // Draw shiny dots in grid pattern around mouse
+                    for (let x = 0; x < this.canvas.width; x += gridSize) {
+                        for (let y = 0; y < this.canvas.height; y += gridSize) {
+                            const dist = Math.sqrt(
+                                (this.mouse.x - x) * (this.mouse.x - x) + 
+                                (this.mouse.y - y) * (this.mouse.y - y)
+                            );
+                            
+                            if (dist < radius) {
+                                const opacity = (1 - (dist / radius)) * this.globalOpacity;
+                                const intensity = opacity * opacity;
+                                
+                                // Draw shiny dot with glow
+                                this.ctx.shadowBlur = 20;
+                                this.ctx.shadowColor = `rgba(59, 130, 246, ${intensity})`;
+                                this.ctx.fillStyle = `rgba(59, 130, 246, ${intensity * 0.3})`;
+                                this.ctx.beginPath();
+                                this.ctx.arc(x, y, 8, 0, Math.PI * 2);
+                                this.ctx.fill();
+                                
+                                // Reset shadow for lines
+                                this.ctx.shadowBlur = 15;
+                                
+                                // Draw shiny grid lines
+                                this.ctx.strokeStyle = `rgba(59, 130, 246, ${opacity * 0.6})`;
+                                this.ctx.lineWidth = 1;
+                                this.ctx.beginPath();
+                                this.ctx.moveTo(x - radius, y);
+                                this.ctx.lineTo(x + radius, y);
+                                this.ctx.moveTo(x, y - radius);
+                                this.ctx.lineTo(x, y + radius);
+                                this.ctx.stroke();
+                            }
+                        }
+                    }
+                }
+                
+                requestAnimationFrame(() => this.draw());
+            }
+        }
+        
+        
         document.addEventListener('DOMContentLoaded', function() {
             console.log("DOM loaded, initializing...");
             
@@ -1766,7 +1888,10 @@
                 chatInput1.addEventListener('keypress', handleEnterKey);
                 console.log("✅ Main chat input listener added");
             }
-            
+            const gridCanvas = document.getElementById('gridCanvas');
+            if (gridCanvas) {
+                new InteractiveGrid(gridCanvas);
+            }
             if (chatInput2) {
                 chatInput2.addEventListener('keypress', handleEnterKey);
                 console.log("✅ Interface chat input listener added");
